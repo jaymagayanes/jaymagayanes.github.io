@@ -60,7 +60,8 @@
     font-family: var(--display); font-weight: 500; color: var(--muted);
     font-size: clamp(1.1rem, 2.2vw, 1.5rem); margin: 0.75rem 0 0; letter-spacing: -0.01em;
   }
-  .hero .intro { margin: 0; color: var(--muted); max-width: 44ch; }
+  .hero .intro { margin: 0; color: var(--ink); font-weight: 600; font-size: 1.1rem; }
+  .about-btn { font-size: 1.1rem; font-weight: 700; padding: 0.75rem 1.6rem; margin-top: 1.5rem; }
   .contact { display: flex; flex-wrap: wrap; gap: 0.4rem 1.25rem; margin: 0.75rem 0 0; padding: 0; list-style: none; font-weight: 600; }
 
   /* Tile mesh: tiles share hairline borders */
@@ -201,6 +202,33 @@
   .btn.quiet:hover { background: var(--soft); filter: none; }
   .pending { color: var(--muted); font-size: 0.95rem; }
 
+  /* Draggable header and resize handles */
+  .m-head { cursor: move; touch-action: none; user-select: none; }
+  .m-head .x { cursor: pointer; }
+  .rs { position: absolute; z-index: 5; touch-action: none; }
+  .rs-n  { top: 0; left: 14px; right: 14px; height: 6px; cursor: ns-resize; }
+  .rs-s  { bottom: 0; left: 14px; right: 14px; height: 6px; cursor: ns-resize; }
+  .rs-e  { right: 0; top: 14px; bottom: 14px; width: 6px; cursor: ew-resize; }
+  .rs-w  { left: 0; top: 14px; bottom: 14px; width: 6px; cursor: ew-resize; }
+  .rs-ne { top: 0; right: 0; width: 14px; height: 14px; cursor: nesw-resize; }
+  .rs-sw { bottom: 0; left: 0; width: 14px; height: 14px; cursor: nesw-resize; }
+  .rs-nw { top: 0; left: 0; width: 14px; height: 14px; cursor: nwse-resize; }
+  .rs-se {
+    bottom: 0; right: 0; width: 16px; height: 16px; cursor: nwse-resize;
+    background: linear-gradient(135deg, transparent 0 52%, var(--muted) 52% 60%, transparent 60% 74%, var(--muted) 74% 82%, transparent 82%);
+    opacity: 0.6;
+  }
+  @media (max-width: 699px) {
+    .rs { display: none; }
+    .m-head { cursor: default; }
+  }
+
+  /* About me pop-up */
+  dialog.modal.about { width: min(640px, calc(100% - 1.5rem)); height: min(80vh, 560px); }
+  .m-body.single { grid-template-columns: minmax(0, 1fr); }
+  .m-body.single .pane.left { display: none; }
+  .about-text p { margin: 0 0 1.1rem; font-size: 1.1rem; max-width: 60ch; }
+
   dialog.lightbox { background: transparent; border: 0; padding: 0; max-width: 96vw; max-height: 96vh; margin: auto; }
   dialog.lightbox::backdrop { background: rgba(0, 0, 0, 0.85); }
   dialog.lightbox img { max-width: 96vw; max-height: 92vh; display: block; border-radius: 6px; cursor: zoom-out; background: var(--surface); }
@@ -212,10 +240,11 @@
   <header class="hero">
     <div>
       <h1>Jay Magayanes</h1>
-      <p class="headline">Remote professional in data, support and automation</p>
+      <p class="headline">I love to build, create, innovate things...</p>
+      <button class="btn about-btn" id="about-btn" type="button">About me</button>
     </div>
     <div>
-      <p class="intro">Seven years of remote experience. Open an area to see what I've built.</p>
+      <p class="intro">Connect with me on</p>
       <ul class="contact" id="contact"></ul>
     </div>
   </header>
@@ -247,13 +276,27 @@
 /* ============================================================
    EDIT THIS SECTION. Everything below the divider updates itself.
    ============================================================ */
+/* Contact links. Leave any of these "" and it simply won't show. */
 const CONFIG = {
   email: "magayanesjesh@gmail.com",
+  facebook: "",    // e.g. "https://www.facebook.com/your.name"
+  instagram: "",   // e.g. "https://www.instagram.com/yourhandle"
   linkedin: "",    // e.g. "https://www.linkedin.com/in/your-name"
   upwork: "",      // e.g. "https://www.upwork.com/freelancers/~yourid"
   onlinejobs: "",  // e.g. "https://www.onlinejobs.ph/jobseekers/info/yourid"
+  whatsapp: "",    // e.g. "https://wa.me/63XXXXXXXXXX" (this reveals your number)
+  telegram: "",    // e.g. "https://t.me/yourusername"
+  skype: "",       // e.g. "skype:live:yourid?chat"
   github: "https://github.com/jaymagayanes"
 };
+
+/* The About me pop-up. One string per paragraph. */
+const ABOUT = [
+  "Hi, you can call me Jay. I live here in the Philippines, which is a very wonderful country. I started early in my work journey as a customer support agent for a flower delivery company, then moved on to gain more skills at different companies as a customer support rep, sales rep and technical support rep. After that I transitioned to back-office roles managing data, as a quality analyst, data analyst and support officer.",
+  "I'm a very curious person and I love to build stuff, like website pages, web apps, automations in Excel on the Microsoft platform, or reports in Python and the like. Simply put, I like to build things that help other people make their jobs easier.",
+  "Some fun facts about me: I love playing guitar, and I love animals. I have 2 dogs and 8 cats, most of them adopted and some of them the children of the others.",
+  "I like to be in a role where I can keep learning more things."
+];
 
 /* The tiles on the page. "tag" decides which projects appear inside. */
 const ROLES = [
@@ -396,9 +439,14 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;",
 /* Contact row */
 $("contact").innerHTML = [
   [CONFIG.email && "mailto:" + CONFIG.email, "Email"],
+  [CONFIG.facebook, "Facebook"],
+  [CONFIG.instagram, "Instagram"],
   [CONFIG.linkedin, "LinkedIn"],
   [CONFIG.upwork, "Upwork"],
   [CONFIG.onlinejobs, "OnlineJobs.ph"],
+  [CONFIG.whatsapp, "WhatsApp"],
+  [CONFIG.telegram, "Telegram"],
+  [CONFIG.skype, "Skype"],
   [CONFIG.github, "GitHub"]
 ].filter(e => e[0]).map(e =>
   `<li><a href="${esc(e[0])}"${e[0].startsWith("http") ? ' target="_blank" rel="noopener"' : ""}>${e[1]}</a></li>`
@@ -473,6 +521,9 @@ function renderRight() {
 }
 
 function openRole(id) {
+  modal.removeAttribute("style");
+  modal.classList.remove("about");
+  modal.querySelector(".m-body").classList.remove("single");
   state.role = ROLES.find(r => r.id === id);
   state.projects = projectsFor(state.role);
   state.p = 0; state.i = 0;
@@ -484,6 +535,7 @@ function openRole(id) {
 }
 
 function step(d) {
+  if (modal.classList.contains("about") || !state.projects[state.p]) return;
   const n = (state.projects[state.p].images || []).length;
   if (n < 2) return;
   state.i = (state.i + d + n) % n;
@@ -521,6 +573,86 @@ modal.addEventListener("keydown", e => {
 modal.addEventListener("close", () => { document.body.style.overflow = ""; });
 $("m-close").addEventListener("click", () => modal.close());
 lightbox.addEventListener("click", () => lightbox.close());
+
+/* About me */
+function openAbout() {
+  modal.removeAttribute("style");
+  modal.classList.add("about");
+  modal.querySelector(".m-body").classList.add("single");
+  $("m-title").textContent = "About me";
+  $("m-left").innerHTML = "";
+  $("m-right").innerHTML = `<div class="about-text">${ABOUT.map(p => `<p>${esc(p)}</p>`).join("")}</div>`;
+  document.body.style.overflow = "hidden";
+  modal.showModal();
+  modal.querySelector(".m-body").scrollTop = 0;
+  modal.querySelectorAll(".pane").forEach(el => el.scrollTop = 0);
+}
+$("about-btn").addEventListener("click", openAbout);
+
+/* Drag by the header, resize from any edge or corner (desktop widths only) */
+const MIN_W = 380, MIN_H = 300;
+const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+const canMove = () => window.innerWidth >= 700;
+
+function freeze() {
+  const r = modal.getBoundingClientRect();
+  Object.assign(modal.style, {
+    margin: "0", right: "auto", bottom: "auto",
+    left: r.left + "px", top: r.top + "px",
+    width: r.width + "px", height: r.height + "px",
+    maxWidth: "none", maxHeight: "none"
+  });
+  return r;
+}
+
+function track(el, e, onMove) {
+  el.setPointerCapture(e.pointerId);
+  const move = ev => onMove(ev.clientX - e.clientX, ev.clientY - e.clientY);
+  const up = () => {
+    el.removeEventListener("pointermove", move);
+    el.removeEventListener("pointerup", up);
+    el.removeEventListener("pointercancel", up);
+  };
+  el.addEventListener("pointermove", move);
+  el.addEventListener("pointerup", up);
+  el.addEventListener("pointercancel", up);
+}
+
+const head = modal.querySelector(".m-head");
+head.addEventListener("pointerdown", e => {
+  if (e.button !== 0 || !canMove() || e.target.closest(".x")) return;
+  const r = freeze();
+  track(head, e, (dx, dy) => {
+    modal.style.left = clamp(r.left + dx, 120 - r.width, window.innerWidth - 120) + "px";
+    modal.style.top = clamp(r.top + dy, 0, window.innerHeight - 56) + "px";
+  });
+});
+
+["n", "s", "e", "w", "ne", "nw", "se", "sw"].forEach(dir => {
+  const h = document.createElement("div");
+  h.className = "rs rs-" + dir;
+  h.setAttribute("aria-hidden", "true");
+  modal.appendChild(h);
+  h.addEventListener("pointerdown", e => {
+    if (e.button !== 0 || !canMove()) return;
+    e.preventDefault();
+    const r = freeze();
+    track(h, e, (dx, dy) => {
+      let l = r.left, t = r.top, w = r.width, ht = r.height;
+      if (dir.includes("e")) w = r.width + dx;
+      if (dir.includes("s")) ht = r.height + dy;
+      if (dir.includes("w")) { w = r.width - dx; l = r.left + dx; }
+      if (dir.includes("n")) { ht = r.height - dy; t = r.top + dy; }
+      if (w < MIN_W) { if (dir.includes("w")) l -= MIN_W - w; w = MIN_W; }
+      if (ht < MIN_H) { if (dir.includes("n")) t -= MIN_H - ht; ht = MIN_H; }
+      if (l < 0) { if (dir.includes("w")) w += l; l = 0; }
+      if (t < 0) { if (dir.includes("n")) ht += t; t = 0; }
+      if (l + w > window.innerWidth) w = window.innerWidth - l;
+      if (t + ht > window.innerHeight) ht = window.innerHeight - t;
+      Object.assign(modal.style, { left: l + "px", top: t + "px", width: w + "px", height: ht + "px" });
+    });
+  });
+});
 </script>
 </body>
 </html>
