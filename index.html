@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jay Magayanes | Data, Support and Automation</title>
-<meta name="description" content="Remote professional with seven years of experience in data analysis, technical support, customer support, operations and automation. Browse work by role.">
+<meta name="description" content="Remote professional with seven years of experience in data analysis, technical support, customer support, operations and automation. Open a role to see the work.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
@@ -34,355 +34,214 @@
     }
   }
   * { box-sizing: border-box; }
-  html { scroll-padding-top: 1.5rem; }
-  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
   body {
     margin: 0;
     background: var(--bg);
     color: var(--ink);
     font-family: var(--body);
-    font-size: 1.0625rem;
-    line-height: 1.6;
+    font-size: 1rem;
+    line-height: 1.55;
     -webkit-font-smoothing: antialiased;
   }
   a { color: var(--accent); text-underline-offset: 3px; }
   a:focus-visible, button:focus-visible {
     outline: 3px solid var(--accent);
-    outline-offset: 3px;
+    outline-offset: 2px;
     border-radius: 4px;
   }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
   h1, h2, h3 { font-family: var(--display); line-height: 1.1; margin: 0; letter-spacing: -0.02em; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
 
   /* Hero */
-  .hero { padding: 4.5rem 0 2.5rem; }
-  .hero h1 { font-size: clamp(2.8rem, 8vw, 5.5rem); font-weight: 700; }
+  .hero { padding: 3rem 0 2rem; display: grid; gap: 1.25rem 3rem; }
+  @media (min-width: 900px) { .hero { grid-template-columns: 1.1fr 1fr; align-items: end; } }
+  .hero h1 { font-size: clamp(2.6rem, 7vw, 4.75rem); font-weight: 700; }
   .hero .headline {
-    font-family: var(--display);
-    font-size: clamp(1.25rem, 2.6vw, 1.75rem);
-    font-weight: 500;
-    color: var(--muted);
-    margin: 1rem 0 0;
-    max-width: 30ch;
-    letter-spacing: -0.01em;
+    font-family: var(--display); font-weight: 500; color: var(--muted);
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem); margin: 0.75rem 0 0; letter-spacing: -0.01em;
   }
-  .hero .intro { max-width: 58ch; margin: 1.5rem 0 0; color: var(--muted); }
+  .hero .intro { margin: 0; color: var(--muted); max-width: 44ch; }
+  .contact { display: flex; flex-wrap: wrap; gap: 0.4rem 1.25rem; margin: 0.75rem 0 0; padding: 0; list-style: none; font-weight: 600; }
 
-  /* Role index: the one memorable element */
-  .index { margin: 3rem 0 0; padding: 0; list-style: none; border-top: 2px solid var(--ink); }
-  .index a {
+  /* Tile mesh: tiles share hairline borders */
+  .mesh {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: 0.25rem 2rem;
-    padding: 1.25rem 0.75rem;
-    border-bottom: 1px solid var(--line);
-    text-decoration: none;
-    color: var(--ink);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  @media (min-width: 620px) { .mesh { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 900px) {
+    .mesh { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    .tile { grid-column: span 2; }
+    .tile.wide { grid-column: span 3; }
+  }
+  .tile {
+    font: inherit; color: inherit; text-align: left;
+    background: var(--surface);
+    border: 0; margin: 0;
+    padding: 1.4rem 1.4rem 1.1rem;
+    min-height: 190px;
+    display: flex; flex-direction: column; gap: 0.5rem;
+    cursor: pointer;
     transition: background-color 0.15s;
   }
-  @media (min-width: 760px) {
-    .index a { grid-template-columns: 22rem minmax(0, 1fr); align-items: baseline; }
+  .tile:hover { background: var(--soft); }
+  .tile:focus-visible { outline-offset: -4px; }
+  .tile h2 { font-size: 1.55rem; font-weight: 700; }
+  .tile:hover h2 { color: var(--accent); }
+  .tile .blurb { color: var(--muted); margin: 0; }
+  .tile .chips { margin: 0; font-size: 0.9rem; }
+  .tile .foot {
+    margin-top: auto; display: flex; justify-content: space-between; align-items: center;
+    color: var(--muted); font-size: 0.9rem;
   }
-  .index a:hover { background: var(--soft); }
-  .index .role-name { font-family: var(--display); font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; letter-spacing: -0.02em; }
-  .index a:hover .role-name { color: var(--accent); }
-  .index .role-blurb { color: var(--muted); font-size: 1rem; }
-  .index-note { margin: 1rem 0 0; color: var(--muted); font-size: 0.95rem; }
+  .tile .plus {
+    width: 1.75rem; height: 1.75rem; border-radius: 50%;
+    border: 1.5px solid var(--accent); color: var(--accent);
+    display: grid; place-items: center; font-size: 1.2rem; line-height: 1;
+  }
+  .tile:hover .plus { background: var(--accent); color: var(--accent-ink); }
 
-  /* Role sections */
-  .role { padding: 4rem 0; border-top: 1px solid var(--line); }
-  .role-grid { display: grid; gap: 2.5rem; grid-template-columns: minmax(0, 1fr); }
-  @media (min-width: 900px) {
-    .role-grid { grid-template-columns: 5fr 7fr; gap: 4rem; }
-    .role-side { position: sticky; top: 1.5rem; align-self: start; }
+  footer { padding: 1.25rem 0 2rem; color: var(--muted); font-size: 0.875rem; }
+
+  /* Pop-up */
+  dialog { color: var(--ink); }
+  dialog.modal {
+    width: min(1040px, calc(100% - 1.5rem));
+    height: min(90vh, 740px);
+    padding: 0; margin: auto;
+    border: 1px solid var(--line); border-radius: 8px;
+    background: var(--surface);
+    overflow: hidden;
   }
-  .role h2 { font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 700; }
-  .role .summary { margin: 1rem 0 1.5rem; color: var(--muted); max-width: 46ch; }
+  dialog.modal[open] { display: flex; flex-direction: column; }
+  dialog::backdrop { background: rgba(8, 14, 22, 0.6); }
+  .m-head {
+    display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+    padding: 1rem 1.25rem; border-bottom: 1px solid var(--line);
+  }
+  .m-head h2 { font-size: 1.5rem; font-weight: 700; }
+  .x {
+    font: inherit; font-size: 1.4rem; line-height: 1;
+    width: 2.25rem; height: 2.25rem; border-radius: 6px;
+    border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer;
+  }
+  .x:hover { background: var(--soft); }
+  .m-body { flex: 1; min-height: 0; overflow-y: auto; display: block; }
+  @media (min-width: 860px) {
+    .m-body { display: grid; grid-template-columns: 300px minmax(0, 1fr); overflow: hidden; }
+    .pane { overflow-y: auto; min-height: 0; }
+    .pane.left { border-right: 1px solid var(--line); }
+  }
+  .pane { padding: 1.25rem; }
+  .pane .summary { margin: 0 0 1rem; color: var(--muted); }
   dl.skills { margin: 0 0 1.5rem; }
-  dl.skills dt { font-weight: 600; margin-top: 0.9rem; }
-  dl.skills dd { margin: 0.15rem 0 0; color: var(--muted); }
-  .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+  dl.skills dt { font-weight: 600; margin-top: 0.75rem; }
+  dl.skills dd { margin: 0.1rem 0 0; color: var(--muted); font-size: 0.95rem; }
+  .list-title { font-family: var(--display); font-size: 1.05rem; font-weight: 700; margin: 0 0 0.5rem; }
+  .proj-list { display: flex; flex-direction: column; gap: 0.35rem; }
+  .proj-btn {
+    font: inherit; text-align: left; color: var(--ink);
+    padding: 0.6rem 0.75rem; border-radius: 6px;
+    border: 1px solid var(--line); background: transparent; cursor: pointer;
+    display: flex; justify-content: space-between; gap: 0.75rem; align-items: baseline;
+  }
+  .proj-btn:hover { background: var(--soft); }
+  .proj-btn[aria-current="true"] { border-color: var(--accent); background: var(--soft); font-weight: 600; }
+  .proj-btn small { color: var(--muted); font-weight: 400; white-space: nowrap; }
+
+  /* Gallery */
+  .stage {
+    position: relative; aspect-ratio: 16 / 10;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 6px;
+    overflow: hidden; display: grid; place-items: center;
+  }
+  .stage img { width: 100%; height: 100%; object-fit: contain; cursor: zoom-in; display: block; }
+  .stage .empty { color: var(--muted); text-align: center; padding: 1rem; max-width: 34ch; }
+  .nav {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 2.25rem; height: 2.25rem; border-radius: 50%;
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+    font: inherit; font-size: 1.1rem; cursor: pointer;
+  }
+  .nav:hover { background: var(--soft); }
+  .nav.prev { left: 0.6rem; } .nav.next { right: 0.6rem; }
+  .caption { margin: 0.5rem 0 0; color: var(--muted); font-size: 0.9rem; min-height: 1.4em; }
+  .thumbs { display: flex; gap: 0.5rem; margin-top: 0.5rem; overflow-x: auto; padding-bottom: 0.25rem; }
+  .thumb {
+    flex: 0 0 auto; padding: 0; width: 76px; height: 50px;
+    border: 2px solid var(--line); border-radius: 4px; background: var(--bg); cursor: pointer; overflow: hidden;
+  }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .thumb[aria-current="true"] { border-color: var(--accent); }
+
+  .detail h3 { font-size: 1.6rem; font-weight: 700; display: flex; flex-wrap: wrap; gap: 0.4rem 0.75rem; align-items: center; margin-top: 1.25rem; }
+  .status {
+    font-family: var(--body); font-size: 0.8rem; font-weight: 600; letter-spacing: 0;
+    padding: 0.1rem 0.6rem; border-radius: 99px; background: var(--soft); color: var(--accent);
+  }
+  .status.soon { background: transparent; border: 1px dashed var(--muted); color: var(--muted); }
+  .detail .sum { margin: 0.5rem 0 0; }
+  .detail .stack { margin: 0.5rem 0 0; color: var(--muted); font-size: 0.95rem; }
+  .detail ul { margin: 0.75rem 0 0; padding-left: 1.1rem; color: var(--muted); }
+  .detail li { margin: 0.3rem 0; }
+  .btns { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.1rem; align-items: center; }
   .btn {
-    font: inherit; font-weight: 600; font-size: 0.975rem;
-    padding: 0.65rem 1.1rem;
-    border-radius: 6px;
-    border: 2px solid var(--accent);
-    background: var(--accent); color: var(--accent-ink);
+    font: inherit; font-weight: 600; font-size: 0.95rem;
+    padding: 0.55rem 1rem; border-radius: 6px;
+    border: 2px solid var(--accent); background: var(--accent); color: var(--accent-ink);
     text-decoration: none; cursor: pointer;
   }
   .btn:hover { filter: brightness(1.08); }
   .btn.quiet { background: transparent; color: var(--accent); }
   .btn.quiet:hover { background: var(--soft); filter: none; }
+  .pending { color: var(--muted); font-size: 0.95rem; }
 
-  .block-title { font-size: 1.25rem; font-weight: 700; margin: 0 0 0.5rem; }
-  .block + .block { margin-top: 2.5rem; }
-
-  /* Projects as ruled rows */
-  .project { padding: 1.25rem 0; border-top: 1px solid var(--line); }
-  .project:last-child { border-bottom: 1px solid var(--line); }
-  .project h3 { font-size: 1.2rem; font-weight: 700; display: flex; flex-wrap: wrap; gap: 0.5rem 0.75rem; align-items: center; }
-  .status {
-    font-family: var(--body); font-size: 0.8rem; font-weight: 600;
-    padding: 0.1rem 0.55rem; border-radius: 99px;
-    background: var(--soft); color: var(--accent);
-    letter-spacing: 0;
-  }
-  .status.soon { background: transparent; border: 1px dashed var(--muted); color: var(--muted); }
-  .project p { margin: 0.4rem 0 0; color: var(--muted); }
-  .project .stack { margin: 0.5rem 0 0; font-size: 0.9rem; color: var(--ink); }
-  .project .links { margin-top: 0.6rem; display: flex; gap: 1.25rem; font-size: 0.95rem; font-weight: 600; }
-  .project .links .pending { color: var(--muted); font-weight: 400; }
-
-  ul.highlights { margin: 0; padding-left: 1.1rem; color: var(--muted); }
-  ul.highlights li { margin: 0.45rem 0; }
-  ul.highlights strong { color: var(--ink); font-weight: 600; }
-
-  /* Background + contact */
-  .plain { padding: 4rem 0; border-top: 1px solid var(--line); }
-  .plain h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 1.5rem; }
-  .history { margin: 0; padding: 0; list-style: none; display: grid; gap: 0; }
-  .history li {
-    display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.1rem 2rem;
-    padding: 0.9rem 0; border-top: 1px solid var(--line);
-  }
-  @media (min-width: 760px) { .history li { grid-template-columns: 9rem minmax(0, 1fr); } }
-  .history .when { color: var(--muted); font-size: 0.95rem; }
-  .history .what strong { font-weight: 600; }
-  .history .what span { color: var(--muted); }
-  .contact-links { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; margin: 1.25rem 0 0; padding: 0; list-style: none; font-weight: 600; }
-  footer { padding: 2rem 0 3rem; color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--line); }
-
-  .toast {
-    position: fixed; left: 50%; bottom: 1.5rem; transform: translateX(-50%);
-    background: var(--ink); color: var(--bg);
-    padding: 0.6rem 1rem; border-radius: 6px; font-weight: 600; font-size: 0.95rem;
-    opacity: 0; pointer-events: none; transition: opacity 0.2s;
-  }
-  .toast.show { opacity: 1; }
+  dialog.lightbox { background: transparent; border: 0; padding: 0; max-width: 96vw; max-height: 96vh; margin: auto; }
+  dialog.lightbox::backdrop { background: rgba(0, 0, 0, 0.85); }
+  dialog.lightbox img { max-width: 96vw; max-height: 92vh; display: block; border-radius: 6px; cursor: zoom-out; background: var(--surface); }
 </style>
 </head>
 <body>
 
-<header class="hero">
-  <div class="wrap">
-    <h1>Jay Magayanes</h1>
-    <p class="headline">Remote professional in data, support and automation</p>
-    <p class="intro">
-      Seven years of remote work across customer support, technical support, quality analysis and data.
-      Choose the kind of role you're hiring for to see the work, skills and projects that fit it.
-    </p>
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <h1>Jay Magayanes</h1>
+      <p class="headline">Remote professional in data, support and automation</p>
+    </div>
+    <div>
+      <p class="intro">Seven years of remote experience. Open an area to see what I've built.</p>
+      <ul class="contact" id="contact"></ul>
+    </div>
+  </header>
 
-    <nav aria-label="Browse by role">
-      <ul class="index">
-        <li><a href="#data-analytics"><span class="role-name">Data and analytics</span><span class="role-blurb">Reporting, data cleaning, quality analysis and dashboards.</span></a></li>
-        <li><a href="#tech-support"><span class="role-name">Technical support</span><span class="role-blurb">Troubleshooting, integrations, escalations and clear documentation.</span></a></li>
-        <li><a href="#customer-support"><span class="role-name">Customer support</span><span class="role-blurb">Chat, email and phone support for large consumer brands.</span></a></li>
-        <li><a href="#virtual-assistant"><span class="role-name">Virtual assistance and operations</span><span class="role-blurb">Processing, records, reporting and coordination across teams.</span></a></li>
-        <li><a href="#web-automation"><span class="role-name">Web development and automation</span><span class="role-blurb">Small web tools, scripts and workflow automations that teams use.</span></a></li>
-      </ul>
-    </nav>
-    <p class="index-note">Each section has its own link, so you can share the one that matches the job.</p>
+  <main>
+    <div class="mesh" id="mesh"></div>
+    <noscript><p>Please enable JavaScript to browse the projects, or email me directly.</p></noscript>
+  </main>
+
+  <footer>All projects use sample or public data. None contain information from any employer or client.</footer>
+</div>
+
+<dialog class="modal" id="modal" aria-labelledby="m-title">
+  <div class="m-head">
+    <h2 id="m-title"></h2>
+    <button class="x" type="button" id="m-close" aria-label="Close">&times;</button>
   </div>
-</header>
+  <div class="m-body">
+    <div class="pane left" id="m-left"></div>
+    <div class="pane right" id="m-right"></div>
+  </div>
+</dialog>
 
-<main>
-
-  <!-- DATA -->
-  <section class="role" id="data-analytics" aria-labelledby="h-data">
-    <div class="wrap role-grid">
-      <div class="role-side">
-        <h2 id="h-data">Data and analytics</h2>
-        <p class="summary">I turn messy spreadsheets and operational data into clean, trustworthy reports that teams can act on.</p>
-        <dl class="skills">
-          <dt>Day-to-day strengths</dt>
-          <dd>Excel and Power Query, data cleaning and validation, structured reporting, quality auditing</dd>
-          <dt>Working knowledge</dt>
-          <dd>SQL, Python, Power BI, data modelling and lineage concepts</dd>
-        </dl>
-        <div class="actions">
-          <a class="btn" href="resumes/Jay-Magayanes-Data-Analyst.pdf">Download resume</a>
-          <button class="btn quiet" type="button" data-copy="data-analytics">Copy link to this section</button>
-        </div>
-      </div>
-      <div>
-        <div class="block">
-          <h3 class="block-title">Projects</h3>
-          <div class="projects" data-tag="data"></div>
-        </div>
-        <div class="block">
-          <h3 class="block-title">Relevant experience</h3>
-          <ul class="highlights">
-            <li><strong>Data analyst, internal operations team.</strong> Reporting and analysis for a business team.</li>
-            <li><strong>Content moderation quality analyst, Instagram.</strong> Audited decisions for accuracy, analyzed performance data to find process gaps and reported findings to leads.</li>
-            <li><strong>Exceptions database.</strong> Replaced an unstructured spreadsheet with a cleaned, searchable data tool now used daily by a team.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TECH SUPPORT -->
-  <section class="role" id="tech-support" aria-labelledby="h-tech">
-    <div class="wrap role-grid">
-      <div class="role-side">
-        <h2 id="h-tech">Technical support</h2>
-        <p class="summary">I find the real cause of a problem, not just the symptom, and write it up so the next person can fix it fast.</p>
-        <dl class="skills">
-          <dt>Day-to-day strengths</dt>
-          <dd>Troubleshooting, root-cause analysis, escalation reports, documentation, Zendesk, Salesforce, Intercom</dd>
-          <dt>Working knowledge</dt>
-          <dd>REST APIs, webhooks, n8n, Python scripting</dd>
-        </dl>
-        <div class="actions">
-          <a class="btn" href="resumes/Jay-Magayanes-Tech-Support.pdf">Download resume</a>
-          <button class="btn quiet" type="button" data-copy="tech-support">Copy link to this section</button>
-        </div>
-      </div>
-      <div>
-        <div class="block">
-          <h3 class="block-title">Projects</h3>
-          <div class="projects" data-tag="tech"></div>
-        </div>
-        <div class="block">
-          <h3 class="block-title">Relevant experience</h3>
-          <ul class="highlights">
-            <li><strong>Technical support representative, Art Storefronts.</strong> Primary technical contact for an e-commerce platform, diagnosing issues with payment gateways, domain providers and email tools, and escalating clear reports.</li>
-            <li><strong>Technical support representative, AT&amp;T Mobile.</strong> Phone support for network, billing, device and SIM issues while protecting customer data.</li>
-            <li><strong>Technical support, Apple and TripAdvisor.</strong> Account access, billing and technical troubleshooting in a high-volume environment.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CUSTOMER SUPPORT -->
-  <section class="role" id="customer-support" aria-labelledby="h-cs">
-    <div class="wrap role-grid">
-      <div class="role-side">
-        <h2 id="h-cs">Customer support</h2>
-        <p class="summary">Calm, accurate and consistent with customers across chat, email and phone, with minimal supervision.</p>
-        <dl class="skills">
-          <dt>Day-to-day strengths</dt>
-          <dd>Conflict resolution, billing and refunds, order management, escalation handling, remote self-management</dd>
-          <dt>Tools</dt>
-          <dd>Zendesk, Salesforce, Intercom, Slack, Zoom, Microsoft Teams</dd>
-        </dl>
-        <div class="actions">
-          <a class="btn" href="resumes/Jay-Magayanes-Customer-Support.pdf">Download resume</a>
-          <button class="btn quiet" type="button" data-copy="customer-support">Copy link to this section</button>
-        </div>
-      </div>
-      <div>
-        <div class="block">
-          <h3 class="block-title">Experience</h3>
-          <ul class="highlights">
-            <li><strong>Customer and sales support, Apple and TripAdvisor.</strong> Account, billing, refunds, bookings, listings and dispute resolution.</li>
-            <li><strong>Customer support specialist, 1-800-Flowers.</strong> Order placement and tracking, billing questions and escalations.</li>
-            <li><strong>Technical support, AT&amp;T Mobile.</strong> High-volume phone support with careful documentation.</li>
-            <li><strong>Remote since 2020.</strong> Experienced at staying productive and reliable without close supervision.</li>
-          </ul>
-        </div>
-        <div class="block">
-          <h3 class="block-title">Support-side projects</h3>
-          <div class="projects" data-tag="support"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- VA / OPS -->
-  <section class="role" id="virtual-assistant" aria-labelledby="h-va">
-    <div class="wrap role-grid">
-      <div class="role-side">
-        <h2 id="h-va">Virtual assistance and operations</h2>
-        <p class="summary">Organized and detail-focused. I keep records accurate, requests moving and people informed.</p>
-        <dl class="skills">
-          <dt>Day-to-day strengths</dt>
-          <dd>Application processing, record keeping, report preparation, coordinating with internal and external teams</dd>
-          <dt>Tools</dt>
-          <dd>Microsoft 365, SharePoint, Slack, Zoom, Microsoft Teams, Google Meet, WordPress, Wix</dd>
-        </dl>
-        <div class="actions">
-          <a class="btn" href="resumes/Jay-Magayanes-Operations-VA.pdf">Download resume</a>
-          <button class="btn quiet" type="button" data-copy="virtual-assistant">Copy link to this section</button>
-        </div>
-      </div>
-      <div>
-        <div class="block">
-          <h3 class="block-title">Relevant experience</h3>
-          <ul class="highlights">
-            <li><strong>School approval officer.</strong> Reviewed and processed affiliation applications for accuracy and completeness, and guided applicants through requirements.</li>
-            <li><strong>Reporting.</strong> Maintained records and prepared reports that highlighted trends for continuous improvement.</li>
-            <li><strong>Platform support.</strong> Helped artists customize their websites and use email marketing tools.</li>
-          </ul>
-        </div>
-        <div class="block">
-          <h3 class="block-title">Projects</h3>
-          <div class="projects" data-tag="ops"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- WEB + AUTOMATION -->
-  <section class="role" id="web-automation" aria-labelledby="h-web">
-    <div class="wrap role-grid">
-      <div class="role-side">
-        <h2 id="h-web">Web development and automation</h2>
-        <p class="summary">I build small, practical tools and automations that replace repetitive manual work. I'm growing toward full-stack development.</p>
-        <dl class="skills">
-          <dt>Working knowledge</dt>
-          <dd>JavaScript, HTML and CSS, Python, Node.js and Express, SQL, REST APIs, webhooks</dd>
-          <dt>Automation tools</dt>
-          <dd>n8n, Power Automate, Power Query, SharePoint</dd>
-          <dt>Background</dt>
-          <dd>Diploma in Computer Programming, ICCT Colleges</dd>
-        </dl>
-        <div class="actions">
-          <a class="btn" href="resumes/Jay-Magayanes-Web-Automation.pdf">Download resume</a>
-          <button class="btn quiet" type="button" data-copy="web-automation">Copy link to this section</button>
-        </div>
-      </div>
-      <div>
-        <div class="block">
-          <h3 class="block-title">Projects</h3>
-          <div class="projects" data-tag="web"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- BACKGROUND -->
-  <section class="plain" id="background" aria-labelledby="h-bg">
-    <div class="wrap">
-      <h2 id="h-bg">Work history</h2>
-      <ul class="history">
-        <li><span class="when">Present</span><span class="what"><strong>Data analyst</strong> <span>internal operations team</span></span></li>
-        <li><span class="when">Previously</span><span class="what"><strong>School approval officer</strong> <span>education sector</span></span></li>
-        <li><span class="when">2024</span><span class="what"><strong>Technical support representative</strong> <span>Art Storefronts</span></span></li>
-        <li><span class="when">2020 to 2024</span><span class="what"><strong>Content moderation quality analyst</strong> <span>Instagram</span></span></li>
-        <li><span class="when">2018 to 2020</span><span class="what"><strong>Technical and customer support representative</strong> <span>AT&amp;T Mobile, Apple, TripAdvisor</span></span></li>
-        <li><span class="when">Earlier</span><span class="what"><strong>Customer support specialist</strong> <span>1-800-Flowers</span></span></li>
-        <li><span class="when">Education</span><span class="what"><strong>BS Business Administration</strong> <span>University of Rizal System, and Diploma in Computer Programming, ICCT Colleges</span></span></li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section class="plain" id="contact" aria-labelledby="h-contact">
-    <div class="wrap">
-      <h2 id="h-contact">Let's talk</h2>
-      <p style="max-width:52ch;color:var(--muted);margin:0">Based in the Philippines and open to remote part-time or full-time work with flexible hours. Email is the fastest way to reach me.</p>
-      <ul class="contact-links" id="contact-links"></ul>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="wrap">All projects use sample or public data. None contain information from any employer or client.</div>
-</footer>
-
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<dialog class="lightbox" id="lightbox" aria-label="Enlarged screenshot">
+  <img id="lb-img" alt="">
+</dialog>
 
 <script>
 /* ============================================================
@@ -393,125 +252,275 @@ const CONFIG = {
   linkedin: "",    // e.g. "https://www.linkedin.com/in/your-name"
   upwork: "",      // e.g. "https://www.upwork.com/freelancers/~yourid"
   onlinejobs: "",  // e.g. "https://www.onlinejobs.ph/jobseekers/info/yourid"
-  github: ""       // e.g. "https://github.com/yourusername"
+  github: "https://github.com/jaymagayanes"
 };
 
-/* tags: data, tech, support, ops, web. A project shows in every section whose tag it has.
-   status: "live" (finished and linkable) or "soon" (in progress, shown honestly).
-   demo / code: paste your URLs. Leave "" to show "Links coming soon". */
+/* The tiles on the page. "tag" decides which projects appear inside. */
+const ROLES = [
+  {
+    id: "data", tag: "data", wide: true,
+    name: "Data and analytics",
+    blurb: "Reporting, data cleaning, quality analysis and dashboards.",
+    chips: "Excel, Power Query, SQL, Python, Power BI",
+    summary: "I turn messy spreadsheets and operational data into clean, trustworthy reports that teams can act on.",
+    strong: "Excel and Power Query, data cleaning and validation, structured reporting, quality auditing",
+    working: "SQL, Python, Power BI, data modelling and lineage concepts"
+  },
+  {
+    id: "tech", tag: "tech", wide: true,
+    name: "Technical support",
+    blurb: "Troubleshooting, integrations, escalations and clear documentation.",
+    chips: "Zendesk, Salesforce, Intercom, REST APIs, webhooks",
+    summary: "I find the real cause of a problem, not just the symptom, and write it up so the next person can fix it fast.",
+    strong: "Troubleshooting, root-cause analysis, escalation reports, documentation, Zendesk, Salesforce, Intercom",
+    working: "REST APIs, webhooks, n8n, Python scripting"
+  },
+  {
+    id: "support", tag: "support",
+    name: "Customer support",
+    blurb: "Chat, email and phone support for large consumer brands.",
+    chips: "Zendesk, Salesforce, Intercom",
+    summary: "Calm, accurate and consistent with customers across chat, email and phone, with minimal supervision.",
+    strong: "Conflict resolution, billing and refunds, order management, escalation handling, remote self-management",
+    working: "Zendesk, Salesforce, Intercom, Slack, Zoom, Microsoft Teams"
+  },
+  {
+    id: "ops", tag: "ops",
+    name: "Virtual assistance and operations",
+    blurb: "Processing, records, reporting and coordination across teams.",
+    chips: "Microsoft 365, SharePoint, Slack, WordPress",
+    summary: "Organized and detail-focused. I keep records accurate, requests moving and people informed.",
+    strong: "Application processing, record keeping, report preparation, coordinating with internal and external teams",
+    working: "Microsoft 365, SharePoint, Slack, Zoom, Microsoft Teams, Google Meet, WordPress, Wix"
+  },
+  {
+    id: "web", tag: "web",
+    name: "Web development and automation",
+    blurb: "Small web tools, scripts and automations that teams use.",
+    chips: "JavaScript, Python, Node.js, n8n, Power Automate",
+    summary: "I build small, practical tools and automations that replace repetitive manual work, and I'm growing toward full-stack development.",
+    strong: "Automation with n8n, Power Automate and Power Query; small web tools",
+    working: "JavaScript, HTML and CSS, Python, Node.js and Express, SQL, REST APIs, webhooks"
+  }
+];
+
+/* tags: data, tech, support, ops, web. A project shows in every tile whose tag it has.
+   status: "live" (built) or "soon" (in progress).
+   images: screenshots for the gallery. Put the image files in an "images" folder next to index.html.
+           Example: { src: "images/zendesk-report-1.png", caption: "Weekly report summary" }
+   download: path to a zip in a "downloads" folder, e.g. "downloads/zendesk-report-automation.zip"
+   readme: link to the README (GitHub file URL) or a file in your site.
+   demo / code: web links. Leave any of these "" to hide the button. */
 const PROJECTS = [
   {
     title: "Zendesk report automation",
     status: "live",
-    summary: "A Python script that pulls ticket data from the Zendesk API, groups it by status and priority, calculates resolution time and produces a CSV report and an HTML digest. Falls back to sample data when no credentials are set.",
+    summary: "A Python script that turns raw Zendesk ticket data into a clean report, automatically.",
+    details: [
+      "Pulls ticket data from the Zendesk API",
+      "Groups tickets by status and priority and calculates resolution time",
+      "Outputs a CSV report and an HTML digest",
+      "Runs on sample data when no credentials are set, so anyone can try it"
+    ],
     stack: "Python, REST API, JSON, CSV",
     tags: ["data", "tech", "web"],
-    demo: "", code: ""
+    images: [], demo: "", code: "https://github.com/jaymagayanes/Zendesk-Report-Automation", download: "", readme: ""
   },
   {
     title: "8x8 and Zendesk integration simulator",
     status: "live",
-    summary: "Simulates an inbound call event that creates a Zendesk ticket and assigns an agent, with the event flow mapped in n8n alongside direct API calls.",
+    summary: "Simulates how an inbound call becomes a ticket with an agent assigned.",
+    details: [
+      "An inbound call event triggers ticket creation and agent assignment",
+      "Event flow mapped in n8n alongside direct API calls",
+      "Shows how two platforms hand data to each other"
+    ],
     stack: "n8n, 8x8 API, Zendesk API, JavaScript",
     tags: ["tech", "web"],
-    demo: "", code: ""
+    images: [], demo: "", code: "https://github.com/jaymagayanes/8x8-zendeskIntegration", download: "", readme: ""
   },
   {
     title: "Support routing prototype",
     status: "live",
-    summary: "A prototype that classifies incoming support queries by type and urgency and suggests resolution paths, showing how AI output can sit inside a support workflow.",
+    summary: "An AI-assisted tool that sorts incoming support queries and suggests how to resolve them.",
+    details: [
+      "Classifies queries by type and urgency",
+      "Suggests resolution paths for the agent",
+      "Shows how AI output can sit inside a support workflow"
+    ],
     stack: "Node.js, Express, JavaScript, webhooks",
     tags: ["support", "tech", "web"],
-    demo: "", code: ""
+    images: [], demo: "", code: "https://github.com/jaymagayanes/ai-support-automation-portal", download: "", readme: ""
   },
   {
-    title: "Exceptions database web app (sample-data version)",
+    title: "Exceptions database web app (sample data)",
     status: "live",
-    summary: "Replaced an unstructured Excel exceptions sheet with a cleaned, searchable tool. An M-code pipeline normalizes messy multi-sheet data, and a lightweight search page sits on top. This public version uses made-up records.",
+    summary: "A searchable tool that replaces an unstructured exceptions spreadsheet.",
+    details: [
+      "An M-code pipeline normalizes messy multi-sheet data",
+      "A lightweight search page sits on top of the cleaned data",
+      "This public version uses made-up records"
+    ],
     stack: "Power Query, M-code, JavaScript, HTML",
     tags: ["data", "ops", "web"],
-    demo: "", code: ""
+    images: [], demo: "", code: "https://github.com/jaymagayanes/exceptionsDatabase_SearchPortal", download: "", readme: ""
   },
   {
     title: "Support ticket trends dashboard",
     status: "soon",
-    summary: "A dashboard on a public customer-support dataset covering volume, resolution time and common issue types.",
+    summary: "A dashboard on a public customer-support dataset.",
+    details: [
+      "Ticket volume, resolution time and common issue types"
+    ],
     stack: "Power BI or Excel, public dataset",
     tags: ["data", "support"],
-    demo: "", code: ""
+    images: [], demo: "", code: "", download: "", readme: ""
   },
   {
     title: "SQL analysis and data model",
     status: "soon",
-    summary: "A written analysis on a public dataset, with the queries, a simple data model and a lineage diagram.",
+    summary: "A written analysis on a public dataset with the queries behind it.",
+    details: [
+      "SQL queries, a simple data model and a lineage diagram"
+    ],
     stack: "SQL, data modelling",
     tags: ["data"],
-    demo: "", code: ""
+    images: [], demo: "", code: "", download: "", readme: ""
   }
 ];
 /* ============================================================ */
 
-function esc(s) {
-  return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+/* Contact row */
+$("contact").innerHTML = [
+  [CONFIG.email && "mailto:" + CONFIG.email, "Email"],
+  [CONFIG.linkedin, "LinkedIn"],
+  [CONFIG.upwork, "Upwork"],
+  [CONFIG.onlinejobs, "OnlineJobs.ph"],
+  [CONFIG.github, "GitHub"]
+].filter(e => e[0]).map(e =>
+  `<li><a href="${esc(e[0])}"${e[0].startsWith("http") ? ' target="_blank" rel="noopener"' : ""}>${e[1]}</a></li>`
+).join("");
+
+/* Tiles */
+const projectsFor = role => PROJECTS.filter(p => p.tags.includes(role.tag));
+$("mesh").innerHTML = ROLES.map(r => {
+  const n = projectsFor(r).length;
+  return `<button class="tile${r.wide ? " wide" : ""}" type="button" data-role="${r.id}">
+    <h2>${esc(r.name)}</h2>
+    <p class="blurb">${esc(r.blurb)}</p>
+    <p class="chips">${esc(r.chips)}</p>
+    <span class="foot"><span>${n} project${n === 1 ? "" : "s"}</span><span class="plus" aria-hidden="true">+</span></span>
+  </button>`;
+}).join("");
+
+/* Pop-up */
+const modal = $("modal"), lightbox = $("lightbox"), lbImg = $("lb-img");
+const state = { role: null, projects: [], p: 0, i: 0 };
+
+function renderLeft() {
+  const r = state.role;
+  $("m-title").textContent = r.name;
+  $("m-left").innerHTML = `
+    <p class="summary">${esc(r.summary)}</p>
+    <dl class="skills">
+      <dt>Day-to-day strengths</dt><dd>${esc(r.strong)}</dd>
+      <dt>Working knowledge</dt><dd>${esc(r.working)}</dd>
+    </dl>
+    <h3 class="list-title">Work</h3>
+    <div class="proj-list">
+      ${state.projects.map((p, k) => `<button type="button" class="proj-btn" data-proj="${k}" aria-current="${k === state.p}">
+        <span>${esc(p.title)}</span>${p.status === "soon" ? "<small>In progress</small>" : ""}</button>`).join("")}
+    </div>`;
 }
 
-function projectHTML(p) {
-  const links = [];
-  if (p.demo) links.push(`<a href="${esc(p.demo)}" target="_blank" rel="noopener">Live demo</a>`);
-  if (p.code) links.push(`<a href="${esc(p.code)}" target="_blank" rel="noopener">Code and write-up</a>`);
-  const linkHTML = links.length ? links.join("") : `<span class="pending">Links coming soon</span>`;
-  const status = p.status === "soon"
-    ? `<span class="status soon">In progress</span>`
-    : `<span class="status">Built</span>`;
-  return `<article class="project">
-    <h3>${esc(p.title)} ${status}</h3>
-    <p>${esc(p.summary)}</p>
-    <p class="stack">${esc(p.stack)}</p>
-    <div class="links">${linkHTML}</div>
-  </article>`;
+function renderRight() {
+  const p = state.projects[state.p];
+  if (!p) { $("m-right").innerHTML = `<p class="pending">Projects for this area are coming soon.</p>`; return; }
+  const imgs = p.images || [];
+  const cur = imgs[state.i];
+  const stage = imgs.length
+    ? `<img src="${esc(cur.src)}" alt="${esc(cur.caption || p.title)}">
+       ${imgs.length > 1 ? `<button class="nav prev" type="button" data-nav="-1" aria-label="Previous image">&#8249;</button>
+       <button class="nav next" type="button" data-nav="1" aria-label="Next image">&#8250;</button>` : ""}`
+    : `<div class="empty">Screenshots coming soon.</div>`;
+  const thumbs = imgs.length > 1
+    ? `<div class="thumbs">${imgs.map((im, k) => `<button type="button" class="thumb" data-thumb="${k}" aria-current="${k === state.i}" aria-label="Image ${k + 1}"><img src="${esc(im.src)}" alt=""></button>`).join("")}</div>`
+    : "";
+  const btns = [];
+  if (p.download) btns.push(`<a class="btn" href="${esc(p.download)}" download>Download project (.zip)</a>`);
+  if (p.readme) btns.push(`<a class="btn quiet" href="${esc(p.readme)}" target="_blank" rel="noopener">Read the README</a>`);
+  if (p.demo) btns.push(`<a class="btn quiet" href="${esc(p.demo)}" target="_blank" rel="noopener">Live demo</a>`);
+  if (p.code) btns.push(`<a class="btn quiet" href="${esc(p.code)}" target="_blank" rel="noopener">Source on GitHub</a>`);
+  if (!btns.length) btns.push(`<span class="pending">Links coming soon</span>`);
+
+  $("m-right").innerHTML = `
+    <div class="stage" id="stage">${stage}</div>
+    <p class="caption">${imgs.length ? esc(cur.caption || "") : ""}</p>
+    ${thumbs}
+    <div class="detail">
+      <h3>${esc(p.title)} <span class="status${p.status === "soon" ? " soon" : ""}">${p.status === "soon" ? "In progress" : "Built"}</span></h3>
+      <p class="sum">${esc(p.summary)}</p>
+      <p class="stack">${esc(p.stack)}</p>
+      <ul>${p.details.map(d => `<li>${esc(d)}</li>`).join("")}</ul>
+      <div class="btns">${btns.join("")}</div>
+    </div>`;
+
+  const img = $("stage").querySelector("img");
+  if (img) img.addEventListener("error", () => { $("stage").innerHTML = `<div class="empty">This screenshot could not be loaded.</div>`; });
 }
 
-document.querySelectorAll(".projects").forEach(el => {
-  const tag = el.dataset.tag;
-  const items = PROJECTS.filter(p => p.tags.includes(tag));
-  el.innerHTML = items.length ? items.map(projectHTML).join("") : "<p style='color:var(--muted)'>Projects coming soon.</p>";
+function openRole(id) {
+  state.role = ROLES.find(r => r.id === id);
+  state.projects = projectsFor(state.role);
+  state.p = 0; state.i = 0;
+  renderLeft(); renderRight();
+  document.body.style.overflow = "hidden";
+  modal.showModal();
+  modal.querySelectorAll(".pane").forEach(el => el.scrollTop = 0);
+  modal.querySelector(".m-body").scrollTop = 0;
+}
+
+function step(d) {
+  const n = (state.projects[state.p].images || []).length;
+  if (n < 2) return;
+  state.i = (state.i + d + n) % n;
+  renderRight();
+}
+
+$("mesh").addEventListener("click", e => {
+  const t = e.target.closest("[data-role]");
+  if (t) openRole(t.dataset.role);
 });
 
-(function renderContact() {
-  const ul = document.getElementById("contact-links");
-  const entries = [
-    [CONFIG.email && "mailto:" + CONFIG.email, "Email"],
-    [CONFIG.linkedin, "LinkedIn"],
-    [CONFIG.upwork, "Upwork"],
-    [CONFIG.onlinejobs, "OnlineJobs.ph"],
-    [CONFIG.github, "GitHub"]
-  ];
-  ul.innerHTML = entries.filter(e => e[0]).map(e =>
-    `<li><a href="${esc(e[0])}"${e[0].startsWith("http") ? ' target="_blank" rel="noopener"' : ""}>${e[1]}</a></li>`
-  ).join("");
-})();
-
-const toast = document.getElementById("toast");
-let toastTimer;
-function showToast(msg) {
-  toast.textContent = msg;
-  toast.classList.add("show");
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove("show"), 2000);
-}
-
-document.querySelectorAll("[data-copy]").forEach(btn => {
-  btn.addEventListener("click", async () => {
-    const url = location.href.split("#")[0] + "#" + btn.dataset.copy;
-    try {
-      await navigator.clipboard.writeText(url);
-      showToast("Link copied");
-    } catch (e) {
-      showToast("Copy failed. Use the address bar link instead.");
-      location.hash = btn.dataset.copy;
-    }
-  });
+modal.addEventListener("click", e => {
+  if (e.target === modal) return modal.close();
+  const proj = e.target.closest("[data-proj]");
+  if (proj) {
+    state.p = +proj.dataset.proj; state.i = 0;
+    modal.querySelectorAll(".proj-btn").forEach((b, k) => b.setAttribute("aria-current", k === state.p));
+    renderRight();
+    modal.querySelector(".pane.right").scrollTop = 0;
+    return;
+  }
+  const thumb = e.target.closest("[data-thumb]");
+  if (thumb) { state.i = +thumb.dataset.thumb; renderRight(); return; }
+  const nav = e.target.closest("[data-nav]");
+  if (nav) { step(+nav.dataset.nav); return; }
+  if (e.target.matches("#stage img")) {
+    lbImg.src = e.target.src; lbImg.alt = e.target.alt; lightbox.showModal();
+  }
 });
+
+modal.addEventListener("keydown", e => {
+  if (e.key === "ArrowLeft") step(-1);
+  if (e.key === "ArrowRight") step(1);
+});
+modal.addEventListener("close", () => { document.body.style.overflow = ""; });
+$("m-close").addEventListener("click", () => modal.close());
+lightbox.addEventListener("click", () => lightbox.close());
 </script>
 </body>
 </html>
