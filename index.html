@@ -50,18 +50,22 @@
     border-radius: 4px;
   }
   h1, h2, h3 { font-family: var(--display); line-height: 1.1; margin: 0; letter-spacing: -0.02em; }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
 
   /* Hero */
-  .hero { padding: 3rem 0 2rem; display: grid; gap: 1.25rem 3rem; }
-  @media (min-width: 900px) { .hero { grid-template-columns: 1.1fr 1fr; align-items: end; } }
+  .hero { padding: 3rem 0 2rem; display: grid; gap: 1.25rem 2.5rem; }
+  @media (min-width: 900px) {
+    .hero { grid-template-columns: minmax(0, 1fr) auto auto; align-items: start; }
+    .hero .about-wrap { padding-top: 1.4rem; }
+    .hero .connect { padding-top: 1.1rem; }
+  }
   .hero h1 { font-size: clamp(2.6rem, 7vw, 4.75rem); font-weight: 700; }
   .hero .headline {
     font-family: var(--display); font-weight: 500; color: var(--muted);
     font-size: clamp(1.1rem, 2.2vw, 1.5rem); margin: 0.75rem 0 0; letter-spacing: -0.01em;
   }
   .hero .intro { margin: 0; color: var(--ink); font-weight: 600; font-size: 1.1rem; }
-  .about-btn { font-size: 1.1rem; font-weight: 700; padding: 0.75rem 1.6rem; margin-top: 1.5rem; }
+  .about-btn { font-size: 1.1rem; font-weight: 700; padding: 0.75rem 1.6rem; }
   .contact { display: flex; flex-wrap: wrap; gap: 0.4rem 1.25rem; margin: 0.75rem 0 0; padding: 0; list-style: none; font-weight: 600; }
 
   /* Tile mesh: tiles share hairline borders */
@@ -106,6 +110,29 @@
     display: grid; place-items: center; font-size: 1.2rem; line-height: 1;
   }
   .tile:hover .plus { background: var(--accent); color: var(--accent-ink); }
+
+  /* Hovered tile: a soft sheen sweeps across while a faint water shade drifts underneath */
+  .tile { position: relative; overflow: hidden; isolation: isolate; }
+  .tile > * { position: relative; z-index: 1; }
+  .tile::before, .tile::after {
+    content: ""; position: absolute; pointer-events: none; z-index: 0;
+    opacity: 0; transition: opacity 0.35s;
+  }
+  .tile::before {
+    inset: 0;
+    background: linear-gradient(115deg, transparent 35%, color-mix(in srgb, var(--accent) 16%, transparent) 50%, transparent 65%);
+    background-size: 300% 100%; background-position: 120% 0;
+  }
+  .tile::after {
+    inset: -30%;
+    background:
+      radial-gradient(closest-side at 25% 70%, color-mix(in srgb, var(--accent) 14%, transparent), transparent),
+      radial-gradient(closest-side at 75% 30%, color-mix(in srgb, var(--accent) 10%, transparent), transparent);
+  }
+  .tile:hover::before, .tile:focus-visible::before { opacity: 1; animation: sheen 2.6s ease-in-out infinite; }
+  .tile:hover::after, .tile:focus-visible::after { opacity: 1; animation: drift 5s ease-in-out infinite alternate; }
+  @keyframes sheen { from { background-position: 120% 0; } to { background-position: -20% 0; } }
+  @keyframes drift { from { transform: translate(-5%, -3%) rotate(0deg); } to { transform: translate(5%, 4%) rotate(6deg); } }
 
   footer { padding: 1.25rem 0 2rem; color: var(--muted); font-size: 0.875rem; }
 
@@ -202,6 +229,85 @@
   .btn.quiet:hover { background: var(--soft); filter: none; }
   .pending { color: var(--muted); font-size: 0.95rem; }
 
+  /* Background water-shade canvas */
+  #fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+
+  /* Name closes in, headline types out */
+  .word { display: inline-block; white-space: nowrap; }
+  .char {
+    display: inline-block; opacity: 0;
+    transform: translate(calc(var(--dx) * 1em), 0.3em); filter: blur(8px);
+    animation: settle 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation-delay: calc(var(--i) * 55ms + 150ms);
+  }
+  @keyframes settle { to { opacity: 1; transform: none; filter: blur(0); } }
+  .tw { opacity: 0; }
+  .tw.on { opacity: 1; }
+  .caret {
+    display: inline-block; width: 2px; height: 1em; margin-left: 2px; vertical-align: -0.12em;
+    background: var(--accent); animation: caretBlink 0.8s steps(1) infinite;
+  }
+  .caret.gone { opacity: 0; animation: none; transition: opacity 0.4s; }
+  @keyframes caretBlink { 50% { opacity: 0; } }
+
+  /* Pets */
+  .mesh-wrap { position: relative; }
+  .peek-cat, .footer-dog { position: absolute; z-index: 3; cursor: pointer; line-height: 0; }
+  .peek-cat { right: 7%; top: -52px; width: 64px; animation: peekbob 4s ease-in-out infinite; }
+  @keyframes peekbob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
+  footer { position: relative; padding-right: 5rem; }
+  .footer-dog { right: 1rem; top: 6px; width: 54px; }
+  .bubble {
+    position: absolute; bottom: 100%; left: 50%; transform: translate(-50%, 4px);
+    background: var(--ink); color: var(--bg); font: 600 0.8rem/1 var(--body);
+    padding: 0.35rem 0.6rem; border-radius: 99px; white-space: nowrap;
+    opacity: 0; transition: opacity 0.2s, transform 0.2s; pointer-events: none;
+  }
+  .peek-cat:hover .bubble, .footer-dog:hover .bubble { opacity: 1; transform: translate(-50%, -2px); }
+  @media (max-width: 620px) { .peek-cat { width: 52px; top: -42px; } }
+
+  .eye { transform-box: fill-box; transform-origin: center; animation: blink 5.5s infinite; animation-delay: var(--d, 0s); }
+  @keyframes blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+  .ear-l, .ear-r { transform-box: fill-box; animation: twitch 8s infinite; animation-delay: var(--d, 0s); }
+  .ear-l { transform-origin: 85% 90%; }
+  .ear-r { transform-origin: 15% 90%; animation-name: twitchR; }
+  @keyframes twitch  { 0%, 90%, 100% { transform: none; } 93% { transform: rotate(-14deg); } 96% { transform: rotate(3deg); } }
+  @keyframes twitchR { 0%, 90%, 100% { transform: none; } 93% { transform: rotate(14deg); } 96% { transform: rotate(-3deg); } }
+  .dear-l, .dear-r { transform-box: fill-box; animation: flop 2.6s ease-in-out infinite alternate; }
+  .dear-l { transform-origin: 80% 0; }
+  .dear-r { transform-origin: 20% 0; animation-direction: alternate-reverse; }
+  @keyframes flop { from { transform: rotate(-5deg); } to { transform: rotate(4deg); } }
+  .tongue { transform-box: fill-box; transform-origin: top center; animation: pant 0.55s ease-in-out infinite alternate; }
+  @keyframes pant { from { transform: scaleY(0.75); } to { transform: scaleY(1.15); } }
+
+  .pets { display: flex; flex-wrap: wrap; gap: 0.35rem 0.5rem; margin-top: 1.5rem; align-items: flex-end; }
+  .pet { display: inline-block; line-height: 0; cursor: pointer; }
+  .pet:hover { animation: hop 0.45s ease-out; }
+  @keyframes hop { 40% { transform: translateY(-10px) rotate(-4deg); } 100% { transform: none; } }
+
+  /* Pets that stroll across the bottom of the screen now and then */
+  .walker { position: fixed; bottom: 4px; left: 0; z-index: 2; pointer-events: none; width: 96px; line-height: 0; will-change: transform; }
+  .walker svg { animation: bob 0.5s ease-in-out infinite alternate; }
+  .walker .flip { display: block; }
+  .walker-cat { animation: crossR 85s linear 6s infinite backwards; }
+  .walker-dog { animation: crossL 120s linear 38s infinite backwards; }
+  .walker-dog .flip { transform: scaleX(-1); }
+  @keyframes crossR { 0% { transform: translateX(-140px); } 26% { transform: translateX(calc(100vw + 140px)); } 100% { transform: translateX(calc(100vw + 140px)); } }
+  @keyframes crossL { 0% { transform: translateX(calc(100vw + 140px)); } 28% { transform: translateX(-140px); } 100% { transform: translateX(-140px); } }
+  @keyframes bob { from { transform: translateY(0); } to { transform: translateY(-3px); } }
+  .leg { transform-box: fill-box; transform-origin: top center; animation: step 0.5s ease-in-out infinite alternate; }
+  .leg.b { animation-direction: alternate-reverse; }
+  @keyframes step { from { transform: rotate(-26deg); } to { transform: rotate(26deg); } }
+  .tail { transform-box: fill-box; transform-origin: 100% 100%; animation: wag 0.7s ease-in-out infinite alternate; }
+  @keyframes wag { from { transform: rotate(-10deg); } to { transform: rotate(14deg); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .walker, #fx { display: none; }
+    .char, .tw { opacity: 1 !important; transform: none !important; filter: none !important; }
+    .caret { display: none; }
+  }
+
   /* Draggable header and resize handles */
   .m-head { cursor: move; touch-action: none; user-select: none; }
   .m-head .x { cursor: pointer; }
@@ -236,25 +342,37 @@
 </head>
 <body>
 
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="walker walker-cat" id="cat-walker" aria-hidden="true"></div>
+<div class="walker walker-dog" id="dog-walker" aria-hidden="true"></div>
+
 <div class="wrap">
   <header class="hero">
     <div>
       <h1>Jay Magayanes</h1>
       <p class="headline">I love to build, create, innovate things...</p>
+    </div>
+    <div class="about-wrap">
       <button class="btn about-btn" id="about-btn" type="button">About me</button>
     </div>
-    <div>
+    <div class="connect">
       <p class="intro">Connect with me on</p>
       <ul class="contact" id="contact"></ul>
     </div>
   </header>
 
   <main>
-    <div class="mesh" id="mesh"></div>
+    <div class="mesh-wrap">
+      <div class="mesh" id="mesh"></div>
+      <div class="peek-cat" id="peek-cat" aria-hidden="true"></div>
+    </div>
     <noscript><p>Please enable JavaScript to browse the projects, or email me directly.</p></noscript>
   </main>
 
-  <footer>All projects use sample or public data. None contain information from any employer or client.</footer>
+  <footer>
+    All projects use sample or public data. None contain information from any employer or client.
+    <div class="footer-dog" id="footer-dog" aria-hidden="true"></div>
+  </footer>
 </div>
 
 <dialog class="modal" id="modal" aria-labelledby="m-title">
@@ -493,7 +611,7 @@ function renderRight() {
     ? `<img src="${esc(cur.src)}" alt="${esc(cur.caption || p.title)}">
        ${imgs.length > 1 ? `<button class="nav prev" type="button" data-nav="-1" aria-label="Previous image">&#8249;</button>
        <button class="nav next" type="button" data-nav="1" aria-label="Next image">&#8250;</button>` : ""}`
-    : `<div class="empty">Screenshots coming soon.</div>`;
+    : `<div class="empty"><span class="pet" style="--d:0s">${catSVG("#E8A15C", "#16202C", false, 56)}</span><br>Screenshots coming soon.</div>`;
   const thumbs = imgs.length > 1
     ? `<div class="thumbs">${imgs.map((im, k) => `<button type="button" class="thumb" data-thumb="${k}" aria-current="${k === state.i}" aria-label="Image ${k + 1}"><img src="${esc(im.src)}" alt=""></button>`).join("")}</div>`
     : "";
@@ -581,7 +699,7 @@ function openAbout() {
   modal.querySelector(".m-body").classList.add("single");
   $("m-title").textContent = "About me";
   $("m-left").innerHTML = "";
-  $("m-right").innerHTML = `<div class="about-text">${ABOUT.map(p => `<p>${esc(p)}</p>`).join("")}</div>`;
+  $("m-right").innerHTML = `<div class="about-text">${ABOUT.map(p => `<p>${esc(p)}</p>`).join("")}${petsHTML()}</div>`;
   document.body.style.overflow = "hidden";
   modal.showModal();
   modal.querySelector(".m-body").scrollTop = 0;
@@ -653,6 +771,222 @@ head.addEventListener("pointerdown", e => {
     });
   });
 });
+
+/* ============================================================
+   Extras: pets, intro animation, water-shade background
+   ============================================================ */
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* Pets (decorative SVG) */
+function catSVG(fur, eye = "#16202C", paws = false, size = 44) {
+  const h = paws ? 70 : 64;
+  return `<svg viewBox="0 0 64 ${h}" width="${size}" height="${(size * h / 64).toFixed(1)}" aria-hidden="true">
+    <g class="ear-l"><polygon points="8,28 12,4 30,15" fill="${fur}"/><polygon points="13,22 15,11 23,16" fill="#F4A6B7"/></g>
+    <g class="ear-r"><polygon points="56,28 52,4 34,15" fill="${fur}"/><polygon points="51,22 49,11 41,16" fill="#F4A6B7"/></g>
+    <ellipse cx="32" cy="38" rx="26" ry="21" fill="${fur}"/>
+    <ellipse class="eye" cx="22" cy="35" rx="3" ry="4" fill="${eye}"/>
+    <ellipse class="eye" cx="42" cy="35" rx="3" ry="4" fill="${eye}"/>
+    <polygon points="29,42 35,42 32,46" fill="#F4A6B7"/>
+    <path d="M32 46 q-3 4 -7 2 M32 46 q3 4 7 2" stroke="${eye}" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <path d="M10 42 l-8 -2 M10 46 l-8 2 M54 42 l8 -2 M54 46 l8 2" stroke="${eye}" stroke-opacity=".5" stroke-width="1.2" stroke-linecap="round"/>
+    ${paws ? `<ellipse cx="20" cy="63" rx="8" ry="5.5" fill="${fur}"/><ellipse cx="44" cy="63" rx="8" ry="5.5" fill="${fur}"/>
+    <path d="M17 64 v3 M23 64 v3 M41 64 v3 M47 64 v3" stroke="${eye}" stroke-opacity=".35" stroke-width="1.2" stroke-linecap="round"/>` : ""}
+  </svg>`;
+}
+
+function dogSVG(fur, ear, size = 44) {
+  return `<svg viewBox="0 0 64 64" width="${size}" height="${size}" aria-hidden="true">
+    <g class="dear-l"><path d="M12 16 Q1 32 11 50 Q21 43 21 25 Z" fill="${ear}"/></g>
+    <g class="dear-r"><path d="M52 16 Q63 32 53 50 Q43 43 43 25 Z" fill="${ear}"/></g>
+    <ellipse cx="32" cy="32" rx="22" ry="21" fill="${fur}"/>
+    <ellipse cx="32" cy="43" rx="12" ry="10" fill="#F6E7D3"/>
+    <ellipse class="eye" cx="23" cy="27" rx="3" ry="3.4" fill="#16202C"/>
+    <ellipse class="eye" cx="41" cy="27" rx="3" ry="3.4" fill="#16202C"/>
+    <ellipse cx="32" cy="37" rx="5" ry="3.4" fill="#16202C"/>
+    <path d="M32 40 v3 M32 43 q-4 4 -8 0 M32 43 q4 4 8 0" stroke="#16202C" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path class="tongue" d="M29 45 h6 v5 a3 3 0 0 1 -6 0 z" fill="#F4A6B7"/>
+  </svg>`;
+}
+
+function catWalker(fur) {
+  return `<svg viewBox="0 0 120 70" width="96" height="56" aria-hidden="true">
+    <path class="tail" d="M22 30 C6 26 4 12 14 6" stroke="${fur}" stroke-width="7" stroke-linecap="round" fill="none"/>
+    <rect class="leg a" x="25" y="44" width="6" height="20" rx="3" fill="${fur}" opacity=".7"/>
+    <rect class="leg b" x="63" y="44" width="6" height="20" rx="3" fill="${fur}" opacity=".7"/>
+    <rect x="20" y="24" width="64" height="26" rx="13" fill="${fur}"/>
+    <rect class="leg b" x="36" y="44" width="6" height="20" rx="3" fill="${fur}"/>
+    <rect class="leg a" x="74" y="44" width="6" height="20" rx="3" fill="${fur}"/>
+    <polygon points="78,19 80,5 91,14" fill="${fur}"/><polygon points="91,14 101,6 102,21" fill="${fur}"/>
+    <circle cx="88" cy="28" r="14" fill="${fur}"/>
+    <circle cx="94" cy="26" r="2" fill="#16202C"/><circle cx="101" cy="31" r="1.8" fill="#F4A6B7"/>
+  </svg>`;
+}
+
+function dogWalker(fur, ear) {
+  return `<svg viewBox="0 0 120 70" width="96" height="56" aria-hidden="true">
+    <path class="tail" d="M20 32 C8 30 8 16 14 12" stroke="${fur}" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <rect class="leg a" x="24" y="46" width="6" height="18" rx="3" fill="${fur}" opacity=".7"/>
+    <rect class="leg b" x="62" y="46" width="6" height="18" rx="3" fill="${fur}" opacity=".7"/>
+    <rect x="18" y="26" width="62" height="26" rx="12" fill="${fur}"/>
+    <rect class="leg b" x="36" y="46" width="6" height="18" rx="3" fill="${fur}"/>
+    <rect class="leg a" x="72" y="46" width="6" height="18" rx="3" fill="${fur}"/>
+    <circle cx="90" cy="30" r="13" fill="${fur}"/>
+    <rect x="95" y="30" width="15" height="11" rx="5.5" fill="#F6E7D3"/>
+    <circle cx="108" cy="32" r="2.8" fill="#16202C"/>
+    <path d="M82 20 q-11 4 -8 20 q9 -1 12 -13z" fill="${ear}"/>
+    <circle cx="92" cy="27" r="2" fill="#16202C"/>
+    <path class="tongue" d="M102 40 v6 a2.5 2.5 0 0 0 5 0 v-6z" fill="#F4A6B7"/>
+  </svg>`;
+}
+
+const CAT_COLORS = [["#E8A15C"], ["#9AA3AE"], ["#3B4048", "#F6D365"], ["#F3F0EA"], ["#A9835A"], ["#EBD3A8"], ["#C9CED6"], ["#C9743A"]];
+const DOG_COLORS = [["#D9A860", "#A97C3C"], ["#8A5A3B", "#5E3A24"]];
+
+function petsHTML() {
+  let k = 0;
+  const pet = svg => `<span class="pet" style="--d:${(k++ * 0.37).toFixed(2)}s">${svg}</span>`;
+  return `<div class="pets" role="img" aria-label="My 2 dogs and 8 cats">
+    ${DOG_COLORS.map(([f, e]) => pet(dogSVG(f, e, 46))).join("")}
+    ${CAT_COLORS.map(([f, e]) => pet(catSVG(f, e, false, 40))).join("")}
+  </div>`;
+}
+
+$("peek-cat").innerHTML = catSVG("#E8A15C", "#16202C", true, 64) + `<span class="bubble">meow!</span>`;
+$("footer-dog").innerHTML = dogSVG("#D9A860", "#A97C3C", 54) + `<span class="bubble">woof!</span>`;
+$("cat-walker").innerHTML = catWalker("#C9743A");
+$("dog-walker").innerHTML = `<span class="flip">${dogWalker("#8A5A3B", "#5E3A24")}</span>`;
+
+/* Intro: the name closes in letter by letter, then the headline types out */
+(function intro() {
+  const h1 = document.querySelector(".hero h1"), hl = document.querySelector(".hero .headline");
+  const nameText = h1.textContent.trim(), tag = hl.textContent.trim();
+  h1.setAttribute("aria-label", nameText);
+  hl.setAttribute("aria-label", tag);
+  if (reduce) return;
+  const total = nameText.replace(/ /g, "").length;
+  let i = 0;
+  h1.innerHTML = nameText.split(" ").map(w =>
+    `<span class="word" aria-hidden="true">${[...w].map(ch => {
+      const k = i++;
+      return `<span class="char" style="--i:${k};--dx:${((k - (total - 1) / 2) * 0.25).toFixed(2)}">${esc(ch)}</span>`;
+    }).join("")}</span>`).join(" ");
+  hl.innerHTML = `<span class="caret" id="caret" aria-hidden="true"></span>` +
+    tag.split(" ").map(w => `<span class="word" aria-hidden="true">${[...w].map(ch => `<span class="tw">${esc(ch)}</span>`).join("")}</span>`).join(" ");
+  const chars = [...hl.querySelectorAll(".tw")], caret = $("caret");
+  let n = 0;
+  setTimeout(function type() {
+    if (n < chars.length) {
+      chars[n].classList.add("on");
+      chars[n].after(caret);
+      n++;
+      setTimeout(type, 34 + Math.random() * 40);
+    } else {
+      setTimeout(() => caret.classList.add("gone"), 2200);
+    }
+  }, 1300);
+})();
+
+/* Water-shade background: a soft light follows the cursor and leaves ripples.
+   It only appears outside the tiles and pop-ups. Clicking empty space leaves a paw print. */
+(function waterShade() {
+  if (reduce) return;
+  const cv = $("fx"), ctx = cv.getContext("2d");
+  let W = 0, H = 0, rgb = [27, 77, 219];
+
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = innerWidth; H = innerHeight;
+    cv.width = W * dpr; cv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function readColor() {
+    ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#1B4DDB";
+    const hex = ctx.fillStyle;
+    if (/^#[0-9a-f]{6}$/i.test(hex)) rgb = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16));
+  }
+  resize(); readColor();
+  addEventListener("resize", resize);
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", readColor);
+
+  const m = { x: 0, y: 0, gx: 0, gy: 0, on: false, a: 0 };
+  const ripples = [], paws = [];
+  let running = false, last = 0, spawn = { x: -999, y: -999, t: 0 };
+  const SKIP = ".mesh, dialog, button, a, .peek-cat, .footer-dog";
+
+  function start() {
+    if (running) return;
+    running = true; last = performance.now();
+    requestAnimationFrame(tick);
+  }
+
+  addEventListener("pointermove", e => {
+    if (e.pointerType === "touch") return;
+    m.x = e.clientX; m.y = e.clientY;
+    if (!m.a) { m.gx = m.x; m.gy = m.y; }
+    m.on = !e.target.closest(".mesh, dialog, .peek-cat, .footer-dog");
+    if (m.on) {
+      const now = performance.now();
+      if (Math.hypot(m.x - spawn.x, m.y - spawn.y) > 46 && now - spawn.t > 90) {
+        ripples.push({ x: m.x, y: m.y, r: 4, max: 70 + Math.random() * 50 });
+        if (ripples.length > 24) ripples.shift();
+        spawn = { x: m.x, y: m.y, t: now };
+      }
+    }
+    start();
+  }, { passive: true });
+
+  document.documentElement.addEventListener("pointerleave", () => { m.on = false; start(); });
+
+  addEventListener("pointerdown", e => {
+    if (e.target.closest(SKIP)) return;
+    paws.push({ x: e.clientX, y: e.clientY, t: performance.now(), rot: (Math.random() - 0.5) * 0.9 });
+    start();
+  });
+
+  function drawPaw(x, y, rot, al) {
+    ctx.save();
+    ctx.translate(x, y); ctx.rotate(rot);
+    ctx.fillStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${al})`;
+    const e = (cx, cy, rx, ry, a) => { ctx.beginPath(); ctx.ellipse(cx, cy, rx, ry, a, 0, Math.PI * 2); ctx.fill(); };
+    e(0, 7, 10, 8, 0); e(-12, -4, 4, 5.5, -0.35); e(-4.5, -12, 4, 5.5, -0.12); e(4.5, -12, 4, 5.5, 0.12); e(12, -4, 4, 5.5, 0.35);
+    ctx.restore();
+  }
+
+  function tick(now) {
+    const k = Math.min(48, now - last) / 16.7; last = now;
+    m.a += ((m.on ? 1 : 0) - m.a) * Math.min(1, 0.08 * k);
+    m.gx += (m.x - m.gx) * Math.min(1, 0.12 * k);
+    m.gy += (m.y - m.gy) * Math.min(1, 0.12 * k);
+    ctx.clearRect(0, 0, W, H);
+    const [r, g, b] = rgb;
+
+    if (m.a > 0.01) {
+      const R = 240, gr = ctx.createRadialGradient(m.gx, m.gy, 0, m.gx, m.gy, R);
+      gr.addColorStop(0, `rgba(${r},${g},${b},${0.16 * m.a})`);
+      gr.addColorStop(1, `rgba(${r},${g},${b},0)`);
+      ctx.fillStyle = gr;
+      ctx.fillRect(m.gx - R, m.gy - R, R * 2, R * 2);
+    }
+    for (let i = ripples.length - 1; i >= 0; i--) {
+      const p = ripples[i];
+      p.r += 1.5 * k;
+      const t = p.r / p.max;
+      if (t >= 1) { ripples.splice(i, 1); continue; }
+      const al = (1 - t) * 0.35;
+      ctx.lineWidth = 1.5; ctx.strokeStyle = `rgba(${r},${g},${b},${al})`;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.stroke();
+      ctx.lineWidth = 1; ctx.strokeStyle = `rgba(${r},${g},${b},${al * 0.6})`;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 0.62, 0, Math.PI * 2); ctx.stroke();
+    }
+    for (let i = paws.length - 1; i >= 0; i--) {
+      const p = paws[i], age = (now - p.t) / 2400;
+      if (age >= 1) { paws.splice(i, 1); continue; }
+      drawPaw(p.x, p.y, p.rot, age < 0.15 ? (age / 0.15) * 0.5 : (1 - age) * 0.59);
+    }
+    if (m.a > 0.01 || m.on || ripples.length || paws.length) requestAnimationFrame(tick);
+    else running = false;
+  }
+})();
 </script>
 </body>
 </html>
