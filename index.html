@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Jay Magayanes | Data, Support and Automation</title>
 <meta name="description" content="Remote professional with seven years of experience in data analysis, technical support, customer support, operations and automation. Open a role to see the work.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,6 +34,7 @@
     }
   }
   * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   body {
     margin: 0;
     background: var(--bg);
@@ -50,23 +51,63 @@
     border-radius: 4px;
   }
   h1, h2, h3 { font-family: var(--display); line-height: 1.1; margin: 0; letter-spacing: -0.02em; }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
+  .wrap {
+    max-width: 1080px; margin: 0 auto; position: relative; z-index: 1;
+    padding: 0 max(1.5rem, env(safe-area-inset-right)) 0 max(1.5rem, env(safe-area-inset-left));
+  }
+  .about-text p, .detail .sum, .detail li { text-wrap: pretty; }
+  h1, h2, h3, .hero .headline { text-wrap: balance; }
 
   /* Hero */
-  .hero { padding: 3rem 0 2rem; display: grid; gap: 1.25rem 2.5rem; }
+  .hero { padding: 3rem 0 0.75rem; display: grid; gap: 1.25rem 2.5rem; }
   @media (min-width: 900px) {
-    .hero { grid-template-columns: minmax(0, 1fr) auto auto; align-items: start; }
-    .hero .about-wrap { padding-top: 1.4rem; }
-    .hero .connect { padding-top: 1.1rem; }
+    .hero { grid-template-columns: minmax(0, 1fr) auto; align-items: start; }
+    .hero .connect { padding-top: 0.4rem; }
   }
-  .hero h1 { font-size: clamp(2.6rem, 7vw, 4.75rem); font-weight: 700; }
+  .hero h1 { font-family: var(--body); font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 600; }
+  .hero h1 { color: var(--accent); }
+  .name-text { display: inline-block; }
+
+  /* The headline's loop animation is driven by JS: see "Looping variations" below */
   .hero .headline {
     font-family: var(--display); font-weight: 500; color: var(--muted);
-    font-size: clamp(1.1rem, 2.2vw, 1.5rem); margin: 0.75rem 0 0; letter-spacing: -0.01em;
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem); margin: 0.6rem 0 0; letter-spacing: -0.01em; line-height: 1.35;
   }
-  .hero .intro { margin: 0; color: var(--ink); font-weight: 600; font-size: 1.1rem; }
-  .about-btn { font-size: 1.1rem; font-weight: 700; padding: 0.75rem 1.6rem; }
-  .contact { display: flex; flex-wrap: wrap; gap: 0.4rem 1.25rem; margin: 0.75rem 0 0; padding: 0; list-style: none; font-weight: 600; }
+  /* Availability line under the name */
+  .availability { margin: 0.45rem 0 0; display: flex; align-items: center; gap: 0.55rem; font-size: 0.95rem; color: var(--muted); }
+  .availability::before { content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%; background: #2E9E5B; }
+
+  /* Actions (About me + résumé) with Let's connect underneath */
+  .connect { display: flex; flex-direction: column; align-items: flex-start; gap: 0.7rem; }
+  .connect .actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .connect .about-link, .connect .resume {
+    font: inherit; font-weight: 700; font-size: 1rem; line-height: 1.4; border-radius: 8px; margin: 0;
+    padding: 0.7rem 1.2rem; cursor: pointer; white-space: nowrap; text-decoration: none;
+    display: inline-flex; align-items: center;
+  }
+  .connect .about-link { color: var(--accent-ink); background: var(--accent); border: 0; }
+  .connect .about-link:hover { filter: brightness(1.1); }
+  .connect .resume { color: var(--accent); background: transparent; box-shadow: inset 0 0 0 2px var(--accent); }
+  @media (hover: hover) { .connect .resume:hover { background: var(--soft); } }
+  .connect .reach { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.1rem 1rem; }
+  .connect .lets { margin: 0; font-weight: 600; font-size: 1.05rem; color: var(--ink); }
+  .connect .links { display: flex; flex-wrap: wrap; gap: 0.1rem 1.1rem; }
+  .connect .links a { font-weight: 500; color: var(--accent); text-decoration: underline; text-underline-offset: 3px; padding: 0.2rem 0; }
+
+  /* Social buttons (inside the About me pop-up) */
+  .c-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.6rem; margin-top: 1.5rem; }
+  @media (max-width: 620px) { .c-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .c-item {
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    padding: 0.9rem 0.4rem; border: 1px solid var(--line); border-radius: 8px;
+    color: var(--ink); text-decoration: none; font-weight: 600; font-size: 0.9rem; text-align: center;
+    transition: background-color 0.15s, border-color 0.15s;
+  }
+  .c-item:hover, .c-item:focus-visible { background: var(--soft); border-color: var(--accent); }
+  .c-ico {
+    width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center;
+    background: color-mix(in srgb, currentColor 13%, transparent);
+  }
 
   /* Tile mesh: tiles share hairline borders */
   .mesh {
@@ -78,10 +119,13 @@
     border-radius: 8px;
     overflow: hidden;
   }
-  @media (min-width: 620px) { .mesh { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 620px) {
+    .mesh { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tile:last-child:nth-child(odd) { grid-column: 1 / -1; min-height: 0; }
+  }
   @media (min-width: 900px) {
     .mesh { grid-template-columns: repeat(6, minmax(0, 1fr)); }
-    .tile { grid-column: span 2; }
+    .tile, .tile:last-child:nth-child(odd) { grid-column: span 2; min-height: 190px; }
     .tile.wide { grid-column: span 3; }
   }
   .tile {
@@ -94,22 +138,28 @@
     cursor: pointer;
     transition: background-color 0.15s;
   }
-  .tile:hover { background: var(--soft); }
+  @media (hover: hover) { .tile:hover { background: var(--soft); } }
   .tile:focus-visible { outline-offset: -4px; }
   .tile h2 { font-size: 1.55rem; font-weight: 700; }
-  .tile:hover h2 { color: var(--accent); }
+  @media (hover: hover) { .tile:hover h2 { color: var(--accent); } }
   .tile .blurb { color: var(--muted); margin: 0; }
   .tile .chips { margin: 0; font-size: 0.9rem; }
   .tile .foot {
     margin-top: auto; display: flex; justify-content: space-between; align-items: center;
     color: var(--muted); font-size: 0.9rem;
   }
-  .tile .plus {
-    width: 1.75rem; height: 1.75rem; border-radius: 50%;
-    border: 1.5px solid var(--accent); color: var(--accent);
-    display: grid; place-items: center; font-size: 1.2rem; line-height: 1;
+  .tile .more {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    color: var(--accent); font-weight: 600; font-size: 0.95rem;
   }
-  .tile:hover .plus { background: var(--accent); color: var(--accent-ink); }
+  .tile .more .arrow {
+    width: 0; height: 0;
+    border-left: 7px solid currentColor;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    transition: transform 0.2s;
+  }
+  @media (hover: hover) { .tile:hover .more .arrow { transform: translateX(4px); } }
 
   /* Hovered tile: a soft sheen sweeps across while a faint water shade drifts underneath */
   .tile { position: relative; overflow: hidden; isolation: isolate; }
@@ -129,8 +179,12 @@
       radial-gradient(closest-side at 25% 70%, color-mix(in srgb, var(--accent) 14%, transparent), transparent),
       radial-gradient(closest-side at 75% 30%, color-mix(in srgb, var(--accent) 10%, transparent), transparent);
   }
-  .tile:hover::before, .tile:focus-visible::before { opacity: 1; animation: sheen 2.6s ease-in-out infinite; }
-  .tile:hover::after, .tile:focus-visible::after { opacity: 1; animation: drift 5s ease-in-out infinite alternate; }
+  .tile:focus-visible::before { opacity: 1; animation: sheen 2.6s ease-in-out infinite; }
+  .tile:focus-visible::after { opacity: 1; animation: drift 5s ease-in-out infinite alternate; }
+  @media (hover: hover) {
+    .tile:hover::before { opacity: 1; animation: sheen 2.6s ease-in-out infinite; }
+    .tile:hover::after { opacity: 1; animation: drift 5s ease-in-out infinite alternate; }
+  }
   @keyframes sheen { from { background-position: 120% 0; } to { background-position: -20% 0; } }
   @keyframes drift { from { transform: translate(-5%, -3%) rotate(0deg); } to { transform: translate(5%, 4%) rotate(6deg); } }
 
@@ -139,8 +193,9 @@
   /* Pop-up */
   dialog { color: var(--ink); }
   dialog.modal {
-    width: min(1040px, calc(100% - 1.5rem));
-    height: min(90vh, 740px);
+    width: min(1320px, calc(100% - 3rem));
+    height: min(93vh, 940px);
+    height: min(93dvh, 940px);
     padding: 0; margin: auto;
     border: 1px solid var(--line); border-radius: 8px;
     background: var(--surface);
@@ -150,31 +205,37 @@
   dialog::backdrop { background: rgba(8, 14, 22, 0.6); }
   .m-head {
     display: flex; justify-content: space-between; align-items: center; gap: 1rem;
-    padding: 1rem 1.25rem; border-bottom: 1px solid var(--line);
+    padding: 1.2rem 2rem; border-bottom: 1px solid var(--line);
   }
-  .m-head h2 { font-size: 1.5rem; font-weight: 700; }
+  .m-head h2 { font-size: 1.85rem; font-weight: 700; }
+  .m-actions { display: flex; align-items: center; gap: 0.6rem; flex: none; }
+  .copy {
+    font: inherit; font-size: 0.9rem; font-weight: 600; height: 2.25rem; padding: 0 0.85rem; border-radius: 6px;
+    border: 1px solid var(--line); background: transparent; color: var(--accent); cursor: pointer; white-space: nowrap;
+  }
+  .copy:hover { background: var(--soft); }
   .x {
     font: inherit; font-size: 1.4rem; line-height: 1;
     width: 2.25rem; height: 2.25rem; border-radius: 6px;
     border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer;
   }
   .x:hover { background: var(--soft); }
-  .m-body { flex: 1; min-height: 0; overflow-y: auto; display: block; }
+  .m-body { flex: 1; min-height: 0; overflow-y: auto; display: block; overscroll-behavior: contain; }
   @media (min-width: 860px) {
-    .m-body { display: grid; grid-template-columns: 300px minmax(0, 1fr); overflow: hidden; }
-    .pane { overflow-y: auto; min-height: 0; }
+    .m-body { display: grid; grid-template-columns: 360px minmax(0, 1fr); overflow: hidden; }
+    .pane { overflow-y: auto; min-height: 0; overscroll-behavior: contain; }
     .pane.left { border-right: 1px solid var(--line); }
   }
-  .pane { padding: 1.25rem; }
-  .pane .summary { margin: 0 0 1rem; color: var(--muted); }
-  dl.skills { margin: 0 0 1.5rem; }
-  dl.skills dt { font-weight: 600; margin-top: 0.75rem; }
-  dl.skills dd { margin: 0.1rem 0 0; color: var(--muted); font-size: 0.95rem; }
-  .list-title { font-family: var(--display); font-size: 1.05rem; font-weight: 700; margin: 0 0 0.5rem; }
-  .proj-list { display: flex; flex-direction: column; gap: 0.35rem; }
+  .pane { padding: 2rem 2.25rem; }
+  .pane .summary { margin: 0 0 1.5rem; color: var(--muted); font-size: 1.05rem; line-height: 1.6; }
+  dl.skills { margin: 0 0 2rem; }
+  dl.skills dt { font-weight: 600; margin-top: 1.1rem; }
+  dl.skills dd { margin: 0.25rem 0 0; color: var(--muted); font-size: 1rem; line-height: 1.6; }
+  .list-title { font-family: var(--display); font-size: 1.15rem; font-weight: 700; margin: 0 0 0.75rem; }
+  .proj-list { display: flex; flex-direction: column; gap: 0.5rem; }
   .proj-btn {
     font: inherit; text-align: left; color: var(--ink);
-    padding: 0.6rem 0.75rem; border-radius: 6px;
+    padding: 0.85rem 1rem; border-radius: 6px;
     border: 1px solid var(--line); background: transparent; cursor: pointer;
     display: flex; justify-content: space-between; gap: 0.75rem; align-items: baseline;
   }
@@ -184,7 +245,7 @@
 
   /* Gallery */
   .stage {
-    position: relative; aspect-ratio: 16 / 10;
+    position: relative; aspect-ratio: 16 / 9;
     background: var(--bg); border: 1px solid var(--line); border-radius: 6px;
     overflow: hidden; display: grid; place-items: center;
   }
@@ -198,8 +259,8 @@
   }
   .nav:hover { background: var(--soft); }
   .nav.prev { left: 0.6rem; } .nav.next { right: 0.6rem; }
-  .caption { margin: 0.5rem 0 0; color: var(--muted); font-size: 0.9rem; min-height: 1.4em; }
-  .thumbs { display: flex; gap: 0.5rem; margin-top: 0.5rem; overflow-x: auto; padding-bottom: 0.25rem; }
+  .caption { margin: 0.75rem 0 0; color: var(--muted); font-size: 0.9rem; min-height: 1.4em; }
+  .thumbs { display: flex; gap: 0.6rem; margin-top: 0.75rem; overflow-x: auto; padding-bottom: 0.25rem; }
   .thumb {
     flex: 0 0 auto; padding: 0; width: 76px; height: 50px;
     border: 2px solid var(--line); border-radius: 4px; background: var(--bg); cursor: pointer; overflow: hidden;
@@ -207,17 +268,17 @@
   .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .thumb[aria-current="true"] { border-color: var(--accent); }
 
-  .detail h3 { font-size: 1.6rem; font-weight: 700; display: flex; flex-wrap: wrap; gap: 0.4rem 0.75rem; align-items: center; margin-top: 1.25rem; }
+  .detail h3 { font-size: 1.95rem; font-weight: 700; display: flex; flex-wrap: wrap; gap: 0.4rem 0.75rem; align-items: center; margin-top: 2rem; }
   .status {
     font-family: var(--body); font-size: 0.8rem; font-weight: 600; letter-spacing: 0;
     padding: 0.1rem 0.6rem; border-radius: 99px; background: var(--soft); color: var(--accent);
   }
   .status.soon { background: transparent; border: 1px dashed var(--muted); color: var(--muted); }
-  .detail .sum { margin: 0.5rem 0 0; }
-  .detail .stack { margin: 0.5rem 0 0; color: var(--muted); font-size: 0.95rem; }
-  .detail ul { margin: 0.75rem 0 0; padding-left: 1.1rem; color: var(--muted); }
-  .detail li { margin: 0.3rem 0; }
-  .btns { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.1rem; align-items: center; }
+  .detail .sum { margin: 0.9rem 0 0; font-size: 1.1rem; line-height: 1.6; }
+  .detail .stack { margin: 0.75rem 0 0; color: var(--muted); font-size: 1rem; }
+  .detail ul { margin: 1.25rem 0 0; padding-left: 1.3rem; color: var(--muted); font-size: 1.02rem; line-height: 1.6; }
+  .detail li { margin: 0.55rem 0; }
+  .btns { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.75rem; align-items: center; }
   .btn {
     font: inherit; font-weight: 600; font-size: 0.95rem;
     padding: 0.55rem 1rem; border-radius: 6px;
@@ -232,15 +293,8 @@
   /* Background water-shade canvas */
   #fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
 
-  /* Name closes in, headline types out */
+  /* Headline types out (the name is static) */
   .word { display: inline-block; white-space: nowrap; }
-  .char {
-    display: inline-block; opacity: 0;
-    transform: translate(calc(var(--dx) * 1em), 0.3em); filter: blur(8px);
-    animation: settle 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-    animation-delay: calc(var(--i) * 55ms + 150ms);
-  }
-  @keyframes settle { to { opacity: 1; transform: none; filter: blur(0); } }
   .tw { opacity: 0; }
   .tw.on { opacity: 1; }
   .caret {
@@ -304,13 +358,13 @@
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
     .walker, #fx { display: none; }
-    .char, .tw { opacity: 1 !important; transform: none !important; filter: none !important; }
+    .tw { opacity: 1 !important; transform: none !important; filter: none !important; }
     .caret { display: none; }
   }
 
   /* Draggable header and resize handles */
   .m-head { cursor: move; touch-action: none; user-select: none; }
-  .m-head .x { cursor: pointer; }
+  .m-head .x, .m-head .copy { cursor: pointer; }
   .rs { position: absolute; z-index: 5; touch-action: none; }
   .rs-n  { top: 0; left: 14px; right: 14px; height: 6px; cursor: ns-resize; }
   .rs-s  { bottom: 0; left: 14px; right: 14px; height: 6px; cursor: ns-resize; }
@@ -330,10 +384,49 @@
   }
 
   /* About me pop-up */
-  dialog.modal.about { width: min(640px, calc(100% - 1.5rem)); height: min(80vh, 560px); }
+  dialog.modal.about { width: min(900px, calc(100% - 1.5rem)); height: min(88vh, 720px); height: min(88dvh, 720px); }
+  .m-body.single .pane.right { padding: 2rem 2.5rem; }
   .m-body.single { grid-template-columns: minmax(0, 1fr); }
   .m-body.single .pane.left { display: none; }
-  .about-text p { margin: 0 0 1.1rem; font-size: 1.1rem; max-width: 60ch; }
+  .about-text p { margin: 0 0 1.25rem; font-size: 1.1rem; max-width: 64ch; }
+
+
+  /* Phones and small tablets: tighter, evenly balanced spacing */
+  @media (max-width: 899px) {
+    .hero { padding: 2.25rem 0 1.5rem; gap: 1rem; }
+  }
+  @media (max-width: 620px) {
+    .wrap { padding-left: max(1.1rem, env(safe-area-inset-left)); padding-right: max(1.1rem, env(safe-area-inset-right)); }
+    .hero { padding: 1.75rem 0 3rem; }
+    .hero .headline { margin-top: 0.6rem; }
+    .tile { padding: 1.15rem 1.15rem 1rem; min-height: 0; gap: 0.45rem; }
+    .tile .foot { margin-top: 0.9rem; }
+    .tile h2 { font-size: 1.4rem; }
+    .m-head { padding: 0.8rem 1rem; gap: 0.5rem; }
+    .m-head h2 { font-size: 1.35rem; }
+    .copy { padding: 0 0.65rem; font-size: 0.85rem; }
+    .pane { padding: 1.25rem; }
+    .m-body.single .pane.right { padding: 1.25rem 1.1rem 1.5rem; }
+    .about-text p { font-size: 1.02rem; line-height: 1.6; margin-bottom: 1rem; }
+    .c-grid { gap: 0.5rem; margin-top: 1.25rem; }
+    .btns .btn { flex: 1 1 100%; text-align: center; }
+    footer { padding: 1.1rem 5rem 2.25rem 0; }
+    dialog.modal, dialog.modal.about { width: calc(100% - 1rem); height: calc(100dvh - 1.5rem); max-height: none; }
+  }
+  @media (max-width: 380px) {
+    .c-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .connect .about-link, .connect .resume { padding: 0.65rem 1rem; }
+  }
+  /* Touch screens: comfortable tap targets */
+  @media (pointer: coarse) {
+    .x { width: 2.75rem; height: 2.75rem; }
+    .copy { height: 2.75rem; }
+    .connect .links a { padding: 0.4rem 0; }
+    .nav { width: 2.75rem; height: 2.75rem; }
+    .proj-btn { padding: 0.75rem 0.85rem; }
+    .btn { padding: 0.7rem 1.1rem; }
+    .c-item { padding: 1rem 0.4rem; }
+  }
 
   dialog.lightbox { background: transparent; border: 0; padding: 0; max-width: 96vw; max-height: 96vh; margin: auto; }
   dialog.lightbox::backdrop { background: rgba(0, 0, 0, 0.85); }
@@ -349,15 +442,24 @@
 <div class="wrap">
   <header class="hero">
     <div>
-      <h1>Jay Magayanes</h1>
+      <h1>
+        <span class="name-text">Jay Magayanes</span>
+      </h1>
+      <p class="availability" id="availability"><span>Open to remote roles &middot; Philippines (UTC+8)</span></p>
       <p class="headline">I love to build, create, innovate things...</p>
     </div>
-    <div class="about-wrap">
-      <button class="btn about-btn" id="about-btn" type="button">About me</button>
-    </div>
     <div class="connect">
-      <p class="intro">Connect with me on</p>
-      <ul class="contact" id="contact"></ul>
+      <div class="actions">
+        <button class="about-link" id="about-btn" type="button" aria-haspopup="dialog">About me</button>
+        <a class="resume" id="resume-btn" href="resume.pdf" download>Download r&eacute;sum&eacute;</a>
+      </div>
+      <div class="reach">
+        <p class="lets">Let's connect</p>
+        <div class="links">
+          <a href="https://www.linkedin.com/in/jesh-va/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="mailto:magayanesjesh@gmail.com">Email</a>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -378,7 +480,10 @@
 <dialog class="modal" id="modal" aria-labelledby="m-title">
   <div class="m-head">
     <h2 id="m-title"></h2>
-    <button class="x" type="button" id="m-close" aria-label="Close">&times;</button>
+    <div class="m-actions">
+      <button class="copy" type="button" id="m-copy" aria-live="polite">Copy link</button>
+      <button class="x" type="button" id="m-close" aria-label="Close">&times;</button>
+    </div>
   </div>
   <div class="m-body">
     <div class="pane left" id="m-left"></div>
@@ -396,16 +501,18 @@
    ============================================================ */
 /* Contact links. Leave any of these "" and it simply won't show. */
 const CONFIG = {
-  email: "magayanesjesh@gmail.com",
-  facebook: "",    // e.g. "https://www.facebook.com/your.name"
-  instagram: "",   // e.g. "https://www.instagram.com/yourhandle"
-  linkedin: "",    // e.g. "https://www.linkedin.com/in/your-name"
-  upwork: "",      // e.g. "https://www.upwork.com/freelancers/~yourid"
-  onlinejobs: "",  // e.g. "https://www.onlinejobs.ph/jobseekers/info/yourid"
-  whatsapp: "",    // e.g. "https://wa.me/63XXXXXXXXXX" (this reveals your number)
-  telegram: "",    // e.g. "https://t.me/yourusername"
-  skype: "",       // e.g. "skype:live:yourid?chat"
-  github: "https://github.com/jaymagayanes"
+  resume: "resume.pdf",   // put your résumé PDF next to index.html and match the file name here. "" hides the button
+  availability: "Open to remote roles · Philippines (UTC+8)",   // the line under your name. "" hides it
+  /* Placeholder links: replace each with your exact profile URL. */
+  facebook: "https://www.facebook.com/",
+  instagram: "https://www.instagram.com/",
+  github: "https://github.com/jaymagayanes",
+  upwork: "https://www.upwork.com/freelancers/",
+  onlinejobs: "https://www.onlinejobs.ph/jobseekers/info/",
+  whatsapp: "https://wa.me/",              // e.g. https://wa.me/63XXXXXXXXXX (this reveals your number)
+  telegram: "https://t.me/",
+  skype: "https://join.skype.com/"
+  /* LinkedIn and email now live in the header ("Let's connect") */
 };
 
 /* The About me pop-up. One string per paragraph. */
@@ -526,27 +633,34 @@ const PROJECTS = [
     tags: ["data", "ops", "web"],
     images: [], demo: "", code: "https://github.com/jaymagayanes/exceptionsDatabase_SearchPortal", download: "", readme: ""
   },
-  {
-    title: "Support ticket trends dashboard",
-    status: "soon",
-    summary: "A dashboard on a public customer-support dataset.",
+    {
+    title: "NYC 311 support operations analytics",
+    status: "live",
+    summary: "An end-to-end analysis of 884,765 NYC 311 service requests (Jan–Mar 2025), from raw API data to a SQL model, an Excel dashboard and a Power BI report.",
     details: [
-      "Ticket volume, resolution time and common issue types"
+      "Pulled, cleaned and analysed 884,765 public 311 requests with Python, with documented data-quality rules",
+      "Three complaint types (Illegal Parking, Heat/Hot Water, Residential Noise) drive about 45% of all volume",
+      "Demand peaked near 15,000 a day in early January, then settled at about 9,000, and clusters on weekday mornings (9–11am)",
+      "Median time to close is 12.6 hours, but EDC's median is about 7,650 hours and TLC's about 1,620 hours",
+      "Borough averages hide a long tail: Manhattan's 90th percentile is about 46 days, more than double any other borough",
+      "Star-schema model in PostgreSQL (CTEs, window functions, percentiles), an Excel pivot dashboard with slicers, and a Power BI report with DAX measures"
     ],
-    stack: "Power BI or Excel, public dataset",
+    stack: "Python, SQL (PostgreSQL), Power Query, Excel, Power BI, DAX",
     tags: ["data", "support"],
-    images: [], demo: "", code: "", download: "", readme: ""
-  },
-  {
-    title: "SQL analysis and data model",
-    status: "soon",
-    summary: "A written analysis on a public dataset with the queries behind it.",
-    details: [
-      "SQL queries, a simple data model and a lineage diagram"
+    images: [
+      { src: "images/powerbi_overview.png", caption: "Power BI: overview of volume, complaint types and closure" },
+      { src: "images/powerbi_agency.png", caption: "Power BI: agency performance and time to close" },
+      { src: "images/excel_dashboard.png", caption: "Excel pivot dashboard with slicers" },
+      { src: "images/01_top_complaints.png", caption: "Three complaint types account for about 45% of requests" },
+      { src: "images/02_daily_volume.png", caption: "Daily volume peaked in early January, then settled" },
+      { src: "images/03_response_by_agency.png", caption: "Median time to close varies enormously by agency" },
+      { src: "images/04_hour_weekday_heatmap.png", caption: "Requests cluster on weekday mornings, 9–11am" },
+      { src: "images/05_response_by_borough.png", caption: "Median vs 90th percentile time to close, by borough" }
     ],
-    stack: "SQL, data modelling",
-    tags: ["data"],
-    images: [], demo: "", code: "", download: "", readme: ""
+    demo: "",
+    code: "https://github.com/jaymagayanes/nyc-311-analytics",
+    download: "downloads/nyc-311-analytics.zip",
+    readme: "https://github.com/jaymagayanes/nyc-311-analytics#readme"
   }
 ];
 /* ============================================================ */
@@ -554,21 +668,29 @@ const PROJECTS = [
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
-/* Contact row */
-$("contact").innerHTML = [
-  [CONFIG.email && "mailto:" + CONFIG.email, "Email"],
-  [CONFIG.facebook, "Facebook"],
-  [CONFIG.instagram, "Instagram"],
-  [CONFIG.linkedin, "LinkedIn"],
-  [CONFIG.upwork, "Upwork"],
-  [CONFIG.onlinejobs, "OnlineJobs.ph"],
-  [CONFIG.whatsapp, "WhatsApp"],
-  [CONFIG.telegram, "Telegram"],
-  [CONFIG.skype, "Skype"],
-  [CONFIG.github, "GitHub"]
-].filter(e => e[0]).map(e =>
-  `<li><a href="${esc(e[0])}"${e[0].startsWith("http") ? ' target="_blank" rel="noopener"' : ""}>${e[1]}</a></li>`
-).join("");
+/* Social buttons (shown in the About me pop-up) */
+const ico = (inner, extra = "") => `<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" ${extra}>${inner}</svg>`;
+const fillI = inner => ico(inner, 'fill="currentColor"');
+const lineI = inner => ico(inner, 'fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"');
+const txtI = (t, size) => fillI(`<text x="12" y="${size > 11 ? 16.5 : 16}" text-anchor="middle" font-family="Bricolage Grotesque, Segoe UI, sans-serif" font-weight="700" font-size="${size}">${t}</text>`);
+const CONTACTS = [
+  ["Facebook",      CONFIG.facebook,   "#1877F2", fillI('<path d="M14 8V6.5c0-.7.3-1 1-1h2V2h-3c-2.8 0-4 1.8-4 4v2H7.5v3.5H10V22h4V11.5h2.8L17.5 8z"/>')],
+  ["Instagram",     CONFIG.instagram,  "#D62976", lineI('<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.8" fill="currentColor"/>')],
+  ["GitHub",        CONFIG.github,     "var(--ink)", fillI('<path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/>')],
+  ["WhatsApp",      CONFIG.whatsapp,   "#1FA855", lineI('<path d="M3 21l1.6-4.6A9 9 0 1 1 8 19.6z"/><path d="M9.2 8.6c-.3 2.6 2.8 5.9 6 6l1-1.4-1.9-1-.9.8c-.9-.4-1.8-1.3-2.2-2.2l.8-.9-1-1.9z" fill="currentColor" stroke="none"/>')],
+  ["Telegram",      CONFIG.telegram,   "#229ED9", fillI('<path d="M21 3 3 10.5l5.5 2L10 19l3-3.5 4.5 3.5z"/>')],
+  ["Skype",         CONFIG.skype,      "#00A3DD", ico('<circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.8"/><text x="12" y="16.3" text-anchor="middle" font-family="Bricolage Grotesque, Segoe UI, sans-serif" font-weight="700" font-size="12" fill="currentColor">S</text>')],
+  ["Upwork",        CONFIG.upwork,     "#14A800", txtI("Up", 12)],
+  ["OnlineJobs.ph", CONFIG.onlinejobs, "#E8590C", txtI("OJ", 11)]
+];
+const socialsHTML = () => `<div class="c-grid">` + CONTACTS.filter(c => c[1]).map(c =>
+  `<a class="c-item" href="${esc(c[1])}" target="_blank" rel="noopener">` +
+  `<span class="c-ico" style="color:${c[2]}">${c[3]}</span><span>${c[0]}</span></a>`
+).join("") + `</div>`;
+
+/* Résumé button and availability line */
+if (CONFIG.resume) $("resume-btn").setAttribute("href", CONFIG.resume); else $("resume-btn").remove();
+if (CONFIG.availability) $("availability").firstElementChild.textContent = CONFIG.availability; else $("availability").remove();
 
 /* Tiles */
 const projectsFor = role => PROJECTS.filter(p => p.tags.includes(role.tag));
@@ -578,7 +700,7 @@ $("mesh").innerHTML = ROLES.map(r => {
     <h2>${esc(r.name)}</h2>
     <p class="blurb">${esc(r.blurb)}</p>
     <p class="chips">${esc(r.chips)}</p>
-    <span class="foot"><span>${n} project${n === 1 ? "" : "s"}</span><span class="plus" aria-hidden="true">+</span></span>
+    <span class="foot"><span>${n} project${n === 1 ? "" : "s"}</span><span class="more" aria-hidden="true">See more <span class="arrow"></span></span>
   </button>`;
 }).join("");
 
@@ -638,7 +760,14 @@ function renderRight() {
   if (img) img.addEventListener("error", () => { $("stage").innerHTML = `<div class="empty">This screenshot could not be loaded.</div>`; });
 }
 
-function openRole(id) {
+/* Shareable links: each pop-up has its own #address, and the Back button closes it */
+let currentId = "";
+const pushRoute = id => { try { history.pushState({ modal: id }, "", "#" + id); } catch (e) {} };
+const markDeep = id => { try { if (!history.state || !history.state.modal) history.replaceState({ modal: id, deep: true }, "", "#" + id); } catch (e) {} };
+
+function openRole(id, fromRoute) {
+  currentId = id;
+  fromRoute ? markDeep(id) : pushRoute(id);
   modal.removeAttribute("style");
   modal.classList.remove("about");
   modal.querySelector(".m-body").classList.remove("single");
@@ -647,7 +776,7 @@ function openRole(id) {
   state.p = 0; state.i = 0;
   renderLeft(); renderRight();
   document.body.style.overflow = "hidden";
-  modal.showModal();
+  if (!modal.open) modal.showModal();
   modal.querySelectorAll(".pane").forEach(el => el.scrollTop = 0);
   modal.querySelector(".m-body").scrollTop = 0;
 }
@@ -688,24 +817,56 @@ modal.addEventListener("keydown", e => {
   if (e.key === "ArrowLeft") step(-1);
   if (e.key === "ArrowRight") step(1);
 });
-modal.addEventListener("close", () => { document.body.style.overflow = ""; });
+modal.addEventListener("close", () => {
+  document.body.style.overflow = "";
+  const st = history.state;
+  if (st && st.modal) {
+    try { st.deep ? history.replaceState(null, "", location.pathname + location.search) : history.back(); } catch (e) {}
+  }
+});
 $("m-close").addEventListener("click", () => modal.close());
 lightbox.addEventListener("click", () => lightbox.close());
 
 /* About me */
-function openAbout() {
+function openAbout(fromRoute) {
+  currentId = "about";
+  fromRoute === true ? markDeep("about") : pushRoute("about");
   modal.removeAttribute("style");
   modal.classList.add("about");
   modal.querySelector(".m-body").classList.add("single");
   $("m-title").textContent = "About me";
   $("m-left").innerHTML = "";
-  $("m-right").innerHTML = `<div class="about-text">${ABOUT.map(p => `<p>${esc(p)}</p>`).join("")}${petsHTML()}</div>`;
+  $("m-right").innerHTML = `<div class="about-text">${ABOUT.map(p => `<p>${esc(p)}</p>`).join("")}${socialsHTML()}${petsHTML()}</div>`;
   document.body.style.overflow = "hidden";
-  modal.showModal();
+  if (!modal.open) modal.showModal();
   modal.querySelector(".m-body").scrollTop = 0;
   modal.querySelectorAll(".pane").forEach(el => el.scrollTop = 0);
 }
-$("about-btn").addEventListener("click", openAbout);
+$("about-btn").addEventListener("click", () => openAbout());
+
+function routeFromHash() {
+  let id = "";
+  try { id = decodeURIComponent(location.hash.slice(1)); } catch (e) {}
+  if (id === "about") openAbout(true);
+  else if (ROLES.some(r => r.id === id)) openRole(id, true);
+  else if (modal.open) modal.close();
+}
+addEventListener("popstate", routeFromHash);
+
+/* Copy a link to the open pop-up */
+$("m-copy").addEventListener("click", async () => {
+  const url = location.href.split("#")[0] + "#" + currentId, btn = $("m-copy");
+  try { await navigator.clipboard.writeText(url); }
+  catch (e) {
+    const t = document.createElement("textarea");
+    t.value = url; t.style.position = "fixed"; t.style.opacity = "0";
+    document.body.appendChild(t); t.select();
+    try { document.execCommand("copy"); } catch (_) {}
+    t.remove();
+  }
+  btn.textContent = "Copied!";
+  setTimeout(() => { btn.textContent = "Copy link"; }, 1800);
+});
 
 /* Drag by the header, resize from any edge or corner (desktop widths only) */
 const MIN_W = 380, MIN_H = 300;
@@ -738,7 +899,7 @@ function track(el, e, onMove) {
 
 const head = modal.querySelector(".m-head");
 head.addEventListener("pointerdown", e => {
-  if (e.button !== 0 || !canMove() || e.target.closest(".x")) return;
+  if (e.button !== 0 || !canMove() || e.target.closest(".x, .copy")) return;
   const r = freeze();
   track(head, e, (dx, dy) => {
     modal.style.left = clamp(r.left + dx, 120 - r.width, window.innerWidth - 120) + "px";
@@ -856,20 +1017,12 @@ $("footer-dog").innerHTML = dogSVG("#D9A860", "#A97C3C", 54) + `<span class="bub
 $("cat-walker").innerHTML = catWalker("#C9743A");
 $("dog-walker").innerHTML = `<span class="flip">${dogWalker("#8A5A3B", "#5E3A24")}</span>`;
 
-/* Intro: the name closes in letter by letter, then the headline types out */
+/* Intro: the headline types out (the name stays static) */
 (function intro() {
-  const h1 = document.querySelector(".hero h1"), hl = document.querySelector(".hero .headline");
-  const nameText = h1.textContent.trim(), tag = hl.textContent.trim();
-  h1.setAttribute("aria-label", nameText);
+  const hl = document.querySelector(".hero .headline");
+  const tag = hl.textContent.trim();
   hl.setAttribute("aria-label", tag);
   if (reduce) return;
-  const total = nameText.replace(/ /g, "").length;
-  let i = 0;
-  h1.innerHTML = nameText.split(" ").map(w =>
-    `<span class="word" aria-hidden="true">${[...w].map(ch => {
-      const k = i++;
-      return `<span class="char" style="--i:${k};--dx:${((k - (total - 1) / 2) * 0.25).toFixed(2)}">${esc(ch)}</span>`;
-    }).join("")}</span>`).join(" ");
   hl.innerHTML = `<span class="caret" id="caret" aria-hidden="true"></span>` +
     tag.split(" ").map(w => `<span class="word" aria-hidden="true">${[...w].map(ch => `<span class="tw">${esc(ch)}</span>`).join("")}</span>`).join(" ");
   const chars = [...hl.querySelectorAll(".tw")], caret = $("caret");
@@ -883,7 +1036,169 @@ $("dog-walker").innerHTML = `<span class="flip">${dogWalker("#8A5A3B", "#5E3A24"
     } else {
       setTimeout(() => caret.classList.add("gone"), 2200);
     }
-  }, 1300);
+  }, 600);
+})();
+
+/* Looping variations: every 30s the headline plays one of 5 different out / hold / in routines. While the headline is hidden, it is
+   swapped for the next phrase, so it returns saying something new.
+   Order is shuffled so the same animation never plays twice in a row. */
+(function loopVariations() {
+  if (reduce) return;
+  const hero = document.querySelector(".hero"), hl = hero.querySelector(".headline");
+  let hlChars = [...hl.querySelectorAll(".tw")];
+  if (!hlChars.length) return;
+
+  const INTERVAL = 30000;   // start-to-start time between routines
+  const FIRST = 14000;      // wait after load (the intro finishes first)
+  const HOLD = 3400;        // how long the headline stays hidden between phrases
+
+  /* Headline phrases, shown in turn (the original line comes back at the end of the cycle) */
+  const PHRASES = [
+    "📊 Seven years in data analysis, support and operations",
+    "🔧 Technical support with a problem-solving mindset",
+    "💬 Customer support built on clear, friendly communication",
+    "🤖 Automating repetitive work so teams can focus on what matters",
+    "📈 Turning raw data into clear, usable insights",
+    "🧩 Operations support that keeps workflows running smoothly",
+    "🌏 Remote professional, ready to join your team",
+    "🚀 Open to new roles in data, support and automation"
+  ];
+  PHRASES.push(hl.getAttribute("aria-label") || "I love to build, create, innovate things...");
+  let phraseIdx = 0;
+
+  /* Reserve the height of the tallest phrase so tiles never shift when the headline changes */
+  function reserveHeadlineHeight() {
+    const probe = hl.cloneNode(false);
+    probe.removeAttribute("id");
+    probe.setAttribute("aria-hidden", "true");
+    Object.assign(probe.style, { position: "absolute", visibility: "hidden", pointerEvents: "none", minHeight: "0", width: hl.getBoundingClientRect().width + "px", left: "-9999px", top: "0" });
+    hl.parentNode.appendChild(probe);
+    let max = 0;
+    PHRASES.forEach(t => { probe.textContent = t; max = Math.max(max, probe.getBoundingClientRect().height); });
+    probe.remove();
+    hl.style.minHeight = Math.ceil(max) + "px";
+  }
+  let rsT;
+  addEventListener("resize", () => { clearTimeout(rsT); rsT = setTimeout(reserveHeadlineHeight, 150); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(reserveHeadlineHeight);
+  reserveHeadlineHeight();
+  const seg = window.Intl && Intl.Segmenter ? new Intl.Segmenter(undefined, { granularity: "grapheme" }) : null;
+  const glyphs = str => seg ? [...seg.segment(str)].map(x => x.segment) : [...str];
+  function setPhrase(text) {
+    hl.setAttribute("aria-label", text);
+    hl.innerHTML = text.split(" ").map(w =>
+      `<span class="word" aria-hidden="true">${glyphs(w).map(ch => `<span class="tw on">${esc(ch)}</span>`).join("")}</span>`).join(" ");
+    hlChars = [...hl.querySelectorAll(".tw")];
+  }
+  const TAU = Math.PI * 2, S = Math.sin, C = Math.cos;
+  const clamp01 = v => Math.max(0, Math.min(1, v));
+  const ease = t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const env = g => S(Math.PI * g);                  // 0 at both ends, 1 in the middle
+  const fade = g => 1 - clamp01((g - 0.15) / 0.85); // 1 -> 0 as g goes 0 -> 1
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const px = v => v.toFixed(2) + "px";
+
+  /* g = 0 is the natural resting look, g = 1 is fully gone.
+     hl(g, c): style for a headline letter.
+     c = { i, dir, dx, dy, px }  dir is +1 going out, -1 coming back in (so the motion reverses direction). */
+  const VARIANTS = [
+    { /* 1. Orbit: every letter loops around a little circle as it dissolves */
+      rev: false,
+      hl: (g, c) => { const a = g * TAU * c.dir, r = 15;
+        return { transform: `translate(${px(r * S(a))},${px(-r * (1 - C(a)) - g * 8)}) scale(${(1 - 0.4 * g).toFixed(3)})`,
+                 opacity: fade(g), filter: `blur(${(4 * g).toFixed(2)}px)` }; }
+    },
+    { /* 2. Tide: letters sink and rise in a rolling wave */
+      rev: true,
+      hl: (g, c) => ({ transform: `translateY(${px(c.dir * 20 * g + 9 * S(c.i * 0.6 + g * 7) * env(g))})`,
+                       opacity: fade(g), filter: `blur(${(5 * g).toFixed(2)}px)` })
+    },
+    { /* 3. Drum: letters roll away like a rotating drum */
+      rev: false,
+      hl: (g, c) => ({ transform: `perspective(500px) rotateX(${(-95 * g * c.dir).toFixed(2)}deg) translateY(${px(-8 * g * c.dir)})`,
+                       opacity: fade(g) })
+    },
+    { /* 4. Vortex: letters spiral into the centre of the line, then spiral back out */
+      rev: false,
+      hl: (g, c) => { const a = g * TAU * c.dir, k = 1 - g * 0.92;
+        const x = (c.dx * C(a) - c.dy * S(a)) * k, y = (c.dx * S(a) + c.dy * C(a)) * k;
+        return { transform: `translate(${px(x - c.dx)},${px(y - c.dy)}) rotate(${a.toFixed(3)}rad) scale(${Math.max(0.05, 1 - 0.85 * g).toFixed(3)})`,
+                 opacity: 1 - clamp01((g - 0.3) / 0.7) }; }
+    },
+    { /* 5. Pendulum: the headline swings away like a clock hand */
+      rev: true,
+      hl: (g, c) => { const t = -g * c.dir * 1.35, x = c.px, y = c.dy;
+        const nx = x * C(t) - y * S(t), ny = x * S(t) + y * C(t);
+        return { transform: `translate(${px(nx - x)},${px(ny - y)}) rotate(${t.toFixed(3)}rad)`,
+                 opacity: 1 - clamp01((g - 0.3) / 0.7) }; }
+    }
+  ];
+
+  let live = [];
+  function play(el, fn, o) {
+    const steps = 18, kf = [];
+    for (let k = 0; k <= steps; k++) {
+      const t = k / steps;
+      kf.push({ offset: t, ...fn(o.from + (o.to - o.from) * ease(t)) });
+    }
+    const a = el.animate(kf, { duration: o.dur, delay: o.delay || 0, easing: "linear", fill: "both" });
+    live.push(a);
+    return a.finished.catch(() => {});
+  }
+
+  function measure() {
+    const rs = hlChars.map(el => el.getBoundingClientRect());
+    const left = Math.min(...rs.map(r => r.left)), right = Math.max(...rs.map(r => r.right));
+    const cx = (left + right) / 2, cy = rs.reduce((s, r) => s + (r.top + r.bottom) / 2, 0) / rs.length;
+    return rs.map(r => ({ dx: r.left + r.width / 2 - cx, dy: (r.top + r.bottom) / 2 - cy, px: r.left + r.width / 2 - left }));
+  }
+
+  async function routine(v, flip) {
+    const OUT = 3000, IN = 3400;  // doubled from the original 1500 / 1700
+    let pos = measure(), n = hlChars.length;
+    let jobs = [];
+
+    // Out: the headline dissolves
+    const sOut = Math.min(44, 1400 / n);
+    hlChars.forEach((el, i) => jobs.push(play(el, g => v.hl(g, { ...pos[i], i, dir: 1 }), { from: 0, to: 1, dur: OUT - 800, delay: i * sOut })));
+    await Promise.all(jobs);
+
+    // Hold: the headline is invisible, so swap in the next phrase
+    live.filter((_, k) => k < n).forEach(a => a.cancel());
+    setPhrase(PHRASES[phraseIdx++ % PHRASES.length]);
+    pos = measure(); n = hlChars.length;
+    const sIn = Math.min(44, 1400 / n);
+    const hidden = hlChars.map((el, i) => play(el, g => v.hl(g, { ...pos[i], i, dir: -1 }), { from: 1, to: 1, dur: HOLD, delay: 0 }));
+    await sleep(HOLD);
+
+    // In: the new headline returns, spinning the opposite direction
+    jobs = [];
+    hlChars.forEach((el, i) => jobs.push(play(el, g => v.hl(g, { ...pos[i], i, dir: -1 }), { from: 1, to: 0, dur: IN - 800, delay: (v.rev ? n - 1 - i : i) * sIn })));
+    await Promise.all(jobs);
+
+    live.forEach(a => a.cancel()); live = [];   // back to the plain resting state
+  }
+
+  let queue = [], last = -1;
+  function nextVariant() {
+    if (!queue.length) {
+      queue = [1, 2, 3, 4].sort(() => Math.random() - 0.5);
+      if (last === -1) queue.unshift(0);                       // always open with the Orbit
+      else if (queue[0] === last) queue.push(queue.shift());   // never repeat back-to-back
+    }
+    return (last = queue.shift());
+  }
+
+  (async function main() {
+    await sleep(FIRST);
+    let flip = false;
+    for (;;) {
+      const t0 = performance.now();
+      try { await routine(VARIANTS[nextVariant()], flip); } catch (e) { live.forEach(a => a.cancel()); live = []; }
+      flip = !flip;
+      await sleep(Math.max(4000, INTERVAL - (performance.now() - t0)));
+    }
+  })();
 })();
 
 /* Water-shade background: a soft light follows the cursor and leaves ripples.
@@ -924,14 +1239,6 @@ $("dog-walker").innerHTML = `<span class="flip">${dogWalker("#8A5A3B", "#5E3A24"
     m.x = e.clientX; m.y = e.clientY;
     if (!m.a) { m.gx = m.x; m.gy = m.y; }
     m.on = !e.target.closest(".mesh, dialog, .peek-cat, .footer-dog");
-    if (m.on) {
-      const now = performance.now();
-      if (Math.hypot(m.x - spawn.x, m.y - spawn.y) > 46 && now - spawn.t > 90) {
-        ripples.push({ x: m.x, y: m.y, r: 4, max: 70 + Math.random() * 50 });
-        if (ripples.length > 24) ripples.shift();
-        spawn = { x: m.x, y: m.y, t: now };
-      }
-    }
     start();
   }, { passive: true });
 
@@ -961,22 +1268,11 @@ $("dog-walker").innerHTML = `<span class="flip">${dogWalker("#8A5A3B", "#5E3A24"
     const [r, g, b] = rgb;
 
     if (m.a > 0.01) {
-      const R = 240, gr = ctx.createRadialGradient(m.gx, m.gy, 0, m.gx, m.gy, R);
-      gr.addColorStop(0, `rgba(${r},${g},${b},${0.16 * m.a})`);
+      const R = 100, gr = ctx.createRadialGradient(m.gx, m.gy, 0, m.gx, m.gy, R);
+      gr.addColorStop(0, `rgba(${r},${g},${b},${0.05 * m.a})`);
       gr.addColorStop(1, `rgba(${r},${g},${b},0)`);
       ctx.fillStyle = gr;
       ctx.fillRect(m.gx - R, m.gy - R, R * 2, R * 2);
-    }
-    for (let i = ripples.length - 1; i >= 0; i--) {
-      const p = ripples[i];
-      p.r += 1.5 * k;
-      const t = p.r / p.max;
-      if (t >= 1) { ripples.splice(i, 1); continue; }
-      const al = (1 - t) * 0.35;
-      ctx.lineWidth = 1.5; ctx.strokeStyle = `rgba(${r},${g},${b},${al})`;
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.stroke();
-      ctx.lineWidth = 1; ctx.strokeStyle = `rgba(${r},${g},${b},${al * 0.6})`;
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 0.62, 0, Math.PI * 2); ctx.stroke();
     }
     for (let i = paws.length - 1; i >= 0; i--) {
       const p = paws[i], age = (now - p.t) / 2400;
@@ -987,6 +1283,8 @@ $("dog-walker").innerHTML = `<span class="flip">${dogWalker("#8A5A3B", "#5E3A24"
     else running = false;
   }
 })();
+
+routeFromHash();
 </script>
 </body>
 </html>
