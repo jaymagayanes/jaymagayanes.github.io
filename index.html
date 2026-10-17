@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Jay Magayanes | Data, Support and Automation</title>
-<meta name="description" content="Remote professional with seven years of experience in data analysis, technical support, customer support, operations and automation. Open a role to see the work.">
+<meta name="description" content="I'm Jay, based in the Philippines. I've spent seven years in customer support, technical support and data work, and I enjoy building small tools that make that work easier. Open a section to see what I've made.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
@@ -250,6 +250,7 @@
     overflow: hidden; display: grid; place-items: center;
   }
   .stage img { width: 100%; height: 100%; object-fit: contain; cursor: zoom-in; display: block; }
+  .stage iframe { width: 100%; height: 100%; border: 0; display: block; }
   .stage .empty { color: var(--muted); text-align: center; padding: 1rem; max-width: 34ch; }
   .nav {
     position: absolute; top: 50%; transform: translateY(-50%);
@@ -473,8 +474,8 @@
       <h1>
         <span class="name-text">Jay Magayanes</span>
       </h1>
-      <p class="availability" id="availability"><span>Open to remote roles &middot; Philippines (UTC+8)</span></p>
-      <p class="headline">I love to build, create, innovate things...</p>
+      <p class="availability" id="availability"><span>Open to remote roles &middot; Based in the Philippines (UTC+8)</span></p>
+      <p class="headline">I like building things that make people's work easier.</p>
     </div>
     <div class="connect">
       <div class="actions">
@@ -501,7 +502,7 @@
   </main>
 
   <footer>
-    All projects use sample or public data. None contain information from any employer or client.
+    The public versions of these projects use sample or public data. None contain information from an employer or client.
     <div class="footer-dog" id="footer-dog" aria-hidden="true"></div>
   </footer>
 </div>
@@ -533,7 +534,7 @@
 /* Contact links. Leave any of these "" and it simply won't show. */
 const CONFIG = {
   resume: "resume.pdf",   // put your résumé PDF next to index.html and match the file name here. "" hides the button
-  availability: "Open to remote roles · Philippines (UTC+8)",   // the line under your name. "" hides it
+  availability: "Open to remote roles · Based in the Philippines (UTC+8)",   // the line under your name. "" hides it
   /* Placeholder links: replace each with your exact profile URL. */
   facebook: "https://www.facebook.com/",
   instagram: "https://www.instagram.com/",
@@ -548,10 +549,10 @@ const CONFIG = {
 
 /* The About me pop-up. One string per paragraph. */
 const ABOUT = [
-  "Hi, you can call me Jay. I live here in the Philippines, which is a very wonderful country. I started early in my work journey as a customer support agent for a flower delivery company, then moved on to gain more skills at different companies as a customer support rep, sales rep and technical support rep. After that I transitioned to back-office roles managing data, as a quality analyst, data analyst and support officer.",
-  "I'm a very curious person and I love to build stuff, like website pages, web apps, automations in Excel on the Microsoft platform, or reports in Python and the like. Simply put, I like to build things that help other people make their jobs easier.",
-  "Some fun facts about me: I love playing guitar, and I love animals. I have 2 dogs and 8 cats, most of them adopted and some of them the children of the others.",
-  "I like to be in a role where I can keep learning more things."
+  "Hi, I'm Jay, and I live in the Philippines. I started out as a customer support agent for a flower delivery company, then picked up new skills at other companies as a customer support rep, sales rep and technical support rep. From there I moved into back-office work with data, as a quality analyst, data analyst and support officer.",
+  "I'm a curious person who likes to build things, whether that's web pages, small web apps, Excel automations on the Microsoft platform, or reports in Python. What I enjoy most is making tools that help other people do their jobs more easily.",
+  "A few fun facts: I play guitar, and I love animals. I have 2 dogs and 8 cats, most of them adopted, and a few are the children of the others.",
+  "I like being in a role where I can keep learning."
 ];
 
 /* The tiles on the page. "tag" decides which projects appear inside. */
@@ -560,26 +561,26 @@ const ROLES = [
     id: "data", tag: "data", wide: true,
     name: "Data and analytics",
     blurb: "Reporting, data cleaning, quality analysis and dashboards.",
-    chips: "Excel, Power Query, SQL, Python, Power BI",
-    summary: "I turn messy spreadsheets and operational data into clean, trustworthy reports that teams can act on.",
+    chips: "Python, SQL, R, Power BI, Excel, Power Query",
+    summary: "I turn messy spreadsheets and operational data into clean reports that teams can rely on.",
     strong: "Excel and Power Query, data cleaning and validation, structured reporting, quality auditing",
-    working: "SQL, Python, Power BI, data modelling and lineage concepts"
+    working: "Python, SQL and PostgreSQL, R and Shiny, Power BI, data modelling"
   },
   {
     id: "tech", tag: "tech", wide: true,
     name: "Technical support",
     blurb: "Troubleshooting, integrations, escalations and clear documentation.",
     chips: "Zendesk, Salesforce, Intercom, REST APIs, webhooks",
-    summary: "I find the real cause of a problem, not just the symptom, and write it up so the next person can fix it fast.",
+    summary: "I look for the real cause of a problem, not just the symptom, and write it up clearly so the next person can fix it faster.",
     strong: "Troubleshooting, root-cause analysis, escalation reports, documentation, Zendesk, Salesforce, Intercom",
-    working: "REST APIs, webhooks, n8n, Python scripting"
+    working: "REST APIs, webhooks, n8n, Python scripting, Node.js"
   },
   {
     id: "support", tag: "support",
     name: "Customer support",
     blurb: "Chat, email and phone support for large consumer brands.",
     chips: "Zendesk, Salesforce, Intercom",
-    summary: "Calm, accurate and consistent with customers across chat, email and phone, with minimal supervision.",
+    summary: "Calm, accurate and consistent with customers across chat, email and phone, and comfortable working with little supervision.",
     strong: "Conflict resolution, billing and refunds, order management, escalation handling, remote self-management",
     working: "Zendesk, Salesforce, Intercom, Slack, Zoom, Microsoft Teams"
   },
@@ -588,7 +589,7 @@ const ROLES = [
     name: "Virtual assistance and operations",
     blurb: "Processing, records, reporting and coordination across teams.",
     chips: "Microsoft 365, SharePoint, Slack, WordPress",
-    summary: "Organized and detail-focused. I keep records accurate, requests moving and people informed.",
+    summary: "Organized and detail-minded. I keep records accurate, requests moving and people informed.",
     strong: "Application processing, record keeping, report preparation, coordinating with internal and external teams",
     working: "Microsoft 365, SharePoint, Slack, Zoom, Microsoft Teams, Google Meet, WordPress, Wix"
   },
@@ -596,7 +597,7 @@ const ROLES = [
     id: "web", tag: "web",
     name: "Web development and automation",
     blurb: "Small web tools, scripts and automations that teams use.",
-    chips: "JavaScript, Python, Node.js, n8n, Power Automate",
+    chips: "JavaScript, HTML, CSS, Python, Node.js, n8n",
     summary: "I build small, practical tools and automations that replace repetitive manual work, and I'm growing toward full-stack development.",
     strong: "Automation with n8n, Power Automate and Power Query; small web tools",
     working: "JavaScript, HTML and CSS, Python, Node.js and Express, SQL, REST APIs, webhooks"
@@ -612,64 +613,11 @@ const ROLES = [
    demo / code: web links. Leave any of these "" to hide the button. */
 const PROJECTS = [
   {
-    title: "Zendesk report automation",
-    status: "live",
-    summary: "A Python script that turns raw Zendesk ticket data into a clean report, automatically.",
-    details: [
-      "Pulls ticket data from the Zendesk API",
-      "Groups tickets by status and priority and calculates resolution time",
-      "Outputs a CSV report and an HTML digest",
-      "Runs on sample data when no credentials are set, so anyone can try it"
-    ],
-    stack: "Python, REST API, JSON, CSV",
-    tags: ["data", "tech", "web"],
-    images: [], demo: "", code: "https://github.com/jaymagayanes/Zendesk-Report-Automation", download: "", readme: ""
-  },
-  {
-    title: "8x8 and Zendesk integration simulator",
-    status: "live",
-    summary: "Simulates how an inbound call becomes a ticket with an agent assigned.",
-    details: [
-      "An inbound call event triggers ticket creation and agent assignment",
-      "Event flow mapped in n8n alongside direct API calls",
-      "Shows how two platforms hand data to each other"
-    ],
-    stack: "n8n, 8x8 API, Zendesk API, JavaScript",
-    tags: ["tech", "web"],
-    images: [], demo: "", code: "https://github.com/jaymagayanes/8x8-zendeskIntegration", download: "", readme: ""
-  },
-  {
-    title: "Support routing prototype",
-    status: "live",
-    summary: "An AI-assisted tool that sorts incoming support queries and suggests how to resolve them.",
-    details: [
-      "Classifies queries by type and urgency",
-      "Suggests resolution paths for the agent",
-      "Shows how AI output can sit inside a support workflow"
-    ],
-    stack: "Node.js, Express, JavaScript, webhooks",
-    tags: ["support", "tech", "web"],
-    images: [], demo: "", code: "https://github.com/jaymagayanes/ai-support-automation-portal", download: "", readme: ""
-  },
-  {
-    title: "Exceptions database web app (sample data)",
-    status: "live",
-    summary: "A searchable tool that replaces an unstructured exceptions spreadsheet.",
-    details: [
-      "An M-code pipeline normalizes messy multi-sheet data",
-      "A lightweight search page sits on top of the cleaned data",
-      "This public version uses made-up records"
-    ],
-    stack: "Power Query, M-code, JavaScript, HTML",
-    tags: ["data", "ops", "web"],
-    images: [], demo: "", code: "https://github.com/jaymagayanes/exceptionsDatabase_SearchPortal", download: "", readme: ""
-  },
-    {
     title: "NYC 311 support operations analytics",
     status: "live",
     summary: "An end-to-end analysis of 884,765 NYC 311 service requests (Jan–Mar 2025), from raw API data to a SQL model, an Excel dashboard and a Power BI report.",
     details: [
-      "Pulled, cleaned and analysed 884,765 public 311 requests with Python, with documented data-quality rules",
+      "Pulled, cleaned and analyzed 884,765 public 311 requests with Python, with documented data-quality rules",
       "Three complaint types (Illegal Parking, Heat/Hot Water, Residential Noise) drive about 45% of all volume",
       "Demand peaked near 15,000 a day in early January, then settled at about 9,000, and clusters on weekday mornings (9–11am)",
       "Median time to close is 12.6 hours, but EDC's median is about 7,650 hours and TLC's about 1,620 hours",
@@ -692,6 +640,85 @@ const PROJECTS = [
     code: "https://github.com/jaymagayanes/nyc-311-analytics",
     download: "downloads/nyc-311-analytics.zip",
     readme: "https://github.com/jaymagayanes/nyc-311-analytics#readme"
+  },
+  {
+    title: "Global education intelligence dashboard",
+    status: "live",
+    summary: "A Python and R project that turns World Bank education data for 261 countries into a live, interactive dashboard.",
+    details: [
+      "A Python ETL pulls World Bank data from 2000 to 2023 and loads it into PostgreSQL on Supabase",
+      "Data quality is documented up front: about 72% of literacy values are missing, and the handling is explained instead of quietly dropped",
+      "An Education Opportunity Index, a score I designed from literacy, primary enrollment, internet access and GDP per capita",
+      "Linear regression on 2010 to 2023 trends estimates each country's yearly improvement, shown in an opportunity matrix",
+      "Dashboard built with R Shiny, ggplot2 and plotly, and hosted on shinyapps.io"
+    ],
+    stack: "Python, PostgreSQL (Supabase), R, Shiny, ggplot2, plotly",
+    tags: ["data", "web"],
+    images: [], demo: "https://jaymagayanes.shinyapps.io/data_analyst", video: "",
+    code: "https://github.com/jaymagayanes/global-education-intelligence", download: "", readme: ""
+  },
+  {
+    title: "Exceptions database web app (sample data)",
+    status: "live",
+    summary: "A searchable web app that replaces a six-sheet Excel workbook of exceptions, built for a real team and used day to day.",
+    details: [
+      "A Power Query (M code) pipeline cleans six differently laid-out sheets into one 14-column format",
+      "Every record keeps its source sheet and row number, so it can be traced back to the original",
+      "The search page has keyword search, programme and sheet filters, and understands the team's shorthand terms",
+      "Data sits in Dataverse and the page reads it through a REST API, with no framework needed",
+      "This public version uses made-up records"
+    ],
+    stack: "Power Query (M), Dataverse, SharePoint, JavaScript, HTML, CSS",
+    tags: ["data", "ops", "web"],
+    images: [], demo: "", video: "https://drive.google.com/file/d/1idUeVykxLUvIzHl4FQpl8xme_jfie2cT/view",
+    code: "https://github.com/jaymagayanes/exceptionsDatabase_SearchPortal", download: "", readme: ""
+  },
+  {
+    title: "Zendesk report automation",
+    status: "live",
+    summary: "A Python script that turns Zendesk ticket data into a ready-to-share report.",
+    details: [
+      "Pulls ticket data from the Zendesk API",
+      "Groups tickets by status and priority and works out average resolution time",
+      "Writes a CSV report and an HTML summary",
+      "Uses sample data when no credentials are set, so anyone can try it"
+    ],
+    stack: "Python, REST API, JSON, CSV, HTML",
+    tags: ["data", "tech", "web"],
+    images: [], demo: "", video: "https://drive.google.com/file/d/1Zh8saF6_mLPYIuh7r8SaAE1vyEYfAZKY/view?usp=sharing",
+    code: "https://github.com/jaymagayanes/Zendesk-Report-Automation", download: "", readme: ""
+  },
+  {
+    title: "Support ticket routing prototype",
+    status: "live",
+    summary: "A small support workflow that sorts, prioritizes and routes tickets with simple rules, then gives the agent a summary and a suggested reply.",
+    details: [
+      "Rules classify each ticket by type and priority, and assign a queue and an SLA",
+      "Checks for duplicate tickets before creating a new one",
+      "Writes a short summary and a suggested reply that the agent can edit",
+      "Simulates syncing the ticket to a Salesforce-style record",
+      "Includes customer portal, agent dashboard and admin dashboard pages",
+      "I chose rules over an AI model on purpose: they are cheaper, predictable and easy to test"
+    ],
+    stack: "Node.js, Express, JavaScript, HTML, CSS, REST APIs",
+    tags: ["support", "tech", "web"],
+    images: [], demo: "", video: "https://drive.google.com/file/d/1CHXhvatkTeQonBZUw5ubu4WGvb3ElQ5I/view?usp=sharing",
+    code: "https://github.com/jaymagayanes/ai_support", download: "", readme: ""
+  },
+  {
+    title: "8x8 and Zendesk integration simulator",
+    status: "live",
+    summary: "A browser dashboard that shows how an answered call can create a Zendesk ticket automatically.",
+    details: [
+      "A simulated call queue with caller details, issue type, priority and a wait timer",
+      "Answering a call sends a request to the Zendesk tickets API, or a simulated response in demo mode",
+      "A live log records each step with a timestamp",
+      "The README explains how it would run in production, with a webhook and a workflow tool such as n8n"
+    ],
+    stack: "JavaScript, HTML, CSS, Zendesk REST API",
+    tags: ["tech", "web"],
+    images: [], demo: "", video: "https://drive.google.com/file/d/1argp2Fxxgs-8NRuDg1HkkqA9USlF2lA2/view?usp=sharing",
+    code: "https://github.com/jaymagayanes/8x8-zendeskIntegration", download: "", readme: ""
   }
 ];
 /* ============================================================ */
@@ -745,8 +772,8 @@ function renderLeft() {
   $("m-left").innerHTML = `
     <p class="summary">${esc(r.summary)}</p>
     <dl class="skills">
-      <dt>Day-to-day strengths</dt><dd>${esc(r.strong)}</dd>
-      <dt>Working knowledge</dt><dd>${esc(r.working)}</dd>
+      <dt>What I do best</dt><dd>${esc(r.strong)}</dd>
+      <dt>Also working with</dt><dd>${esc(r.working)}</dd>
     </dl>
     <h3 class="list-title">Work</h3>
     <div class="proj-list">
@@ -759,11 +786,13 @@ function renderRight() {
   const p = state.projects[state.p];
   if (!p) { $("m-right").innerHTML = `<p class="pending">Projects for this area are coming soon.</p>`; return; }
   const imgs = p.images || [];
+  const vid = p.video ? p.video.replace(/\/view.*$/, "/preview") : "";
   const cur = imgs[state.i];
   const stage = imgs.length
     ? `<img src="${esc(cur.src)}" alt="${esc(cur.caption || p.title)}">
        ${imgs.length > 1 ? `<button class="nav prev" type="button" data-nav="-1" aria-label="Previous image">&#8249;</button>
        <button class="nav next" type="button" data-nav="1" aria-label="Next image">&#8250;</button>` : ""}`
+    : vid ? `<iframe src="${esc(vid)}" title="${esc(p.title)} demo video" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>`
     : `<div class="empty"><span class="pet" style="--d:0s">${catSVG("#E8A15C", "#16202C", false, 56)}</span><br>Screenshots coming soon.</div>`;
   const thumbs = imgs.length > 1
     ? `<div class="thumbs">${imgs.map((im, k) => `<button type="button" class="thumb" data-thumb="${k}" aria-current="${k === state.i}" aria-label="Image ${k + 1}"><img src="${esc(im.src)}" alt=""></button>`).join("")}</div>`
@@ -772,8 +801,9 @@ function renderRight() {
   if (p.download) btns.push(`<a class="btn" href="${esc(p.download)}" download>Download project (.zip)</a>`);
   if (p.readme) btns.push(`<a class="btn quiet" href="${esc(p.readme)}" target="_blank" rel="noopener">Read the README</a>`);
   if (p.demo) btns.push(`<a class="btn quiet" href="${esc(p.demo)}" target="_blank" rel="noopener">Live demo</a>`);
+  if (p.video) btns.push(`<a class="btn quiet" href="${esc(p.video)}" target="_blank" rel="noopener">Watch demo video</a>`);
   if (p.code) btns.push(`<a class="btn quiet" href="${esc(p.code)}" target="_blank" rel="noopener">Source on GitHub</a>`);
-  if (!btns.length) btns.push(`<span class="pending">Links coming soon</span>`);
+  if (!btns.length) btns.push(`<span class="pending">No links yet</span>`);
 
   $("m-right").innerHTML = `
     <div class="stage" id="stage">${stage}</div>
@@ -1085,16 +1115,16 @@ $("dog-walker").innerHTML = `<span class="flip">${dogWalker("#8A5A3B", "#5E3A24"
 
   /* Headline phrases, shown in turn (the original line comes back at the end of the cycle) */
   const PHRASES = [
-    "📊 Seven years in data analysis, support and operations",
-    "🔧 Technical support with a problem-solving mindset",
-    "💬 Customer support built on clear, friendly communication",
-    "🤖 Automating repetitive work so teams can focus on what matters",
-    "📈 Turning raw data into clear, usable insights",
-    "🧩 Operations support that keeps workflows running smoothly",
-    "🌏 Remote professional, ready to join your team",
-    "🚀 Open to new roles in data, support and automation"
+    "📊 Seven years across data, support and operations",
+    "🔧 Technical support that looks for the real cause",
+    "💬 Customer support that's clear, calm and friendly",
+    "🤖 Automating repetitive tasks so teams can focus on people",
+    "📈 Turning messy data into reports people can use",
+    "🧩 Keeping everyday operations organized and moving",
+    "🌏 Based in the Philippines, working remotely",
+    "🚀 Open to remote roles in data, support and automation"
   ];
-  PHRASES.push(hl.getAttribute("aria-label") || "I love to build, create, innovate things...");
+  PHRASES.push(hl.getAttribute("aria-label") || "I like building things that make people's work easier.");
   let phraseIdx = 0;
 
   /* Reserve the height of the tallest phrase so tiles never shift when the headline changes */
@@ -1320,21 +1350,22 @@ $("dog-walker").innerHTML = `<span class="flip">${dogWalker("#8A5A3B", "#5E3A24"
    KIND_WORDS: SAMPLE TEXT. Replace with real feedback from real people before sharing widely. */
 (function toolsAndWords() {
   const TOOLS = [
-    ["Excel", "X", "#1D6F42"], ["SQL", "SQL", "#336791"], ["Python", "Py", "#3776AB"], ["Power BI", "BI", "#F2C811", 1],
-    ["Power Query", "PQ", "#217346"], ["Power Automate", "PA", "#0066FF"], ["n8n", "n8n", "#EA4B71"], ["Zendesk", "Z", "#03363D"],
-    ["Salesforce", "SF", "#00A1E0"], ["Intercom", "IC", "#1F8DED"], ["JavaScript", "JS", "#F7DF1E", 1], ["Node.js", "N", "#5FA04E"],
-    ["GitHub", "GH", "#24292F"], ["Slack", "S", "#4A154B"], ["Microsoft Teams", "T", "#5059C9"], ["SharePoint", "SP", "#0B7285"],
-    ["Zoom", "Zm", "#2D8CFF"], ["WordPress", "W", "#21759B"], ["Google Meet", "M", "#00897B"], ["REST APIs", "API", "#7B4DDB"]
+    ["Python", "Py", "#3776AB"], ["SQL", "SQL", "#336791"], ["PostgreSQL", "Pg", "#336791"], ["R", "R", "#276DC3"], ["Shiny", "Sh", "#2D6CB0"],
+    ["Supabase", "Sb", "#3ECF8E", 1], ["Dataverse", "DV", "#0F6CBD"], ["JavaScript", "JS", "#F7DF1E", 1], ["HTML", "H5", "#E34F26"], ["CSS", "CSS", "#1572B6"],
+    ["Node.js", "N", "#5FA04E"], ["Express", "Ex", "#444B55"], ["REST APIs", "API", "#7B4DDB"], ["Webhooks", "WH", "#C73A63"],
+    ["n8n", "n8n", "#EA4B71"], ["Power BI", "BI", "#F2C811", 1], ["Power Query", "PQ", "#217346"], ["Excel", "X", "#1D6F42"],
+    ["Power Automate", "PA", "#0066FF"], ["GitHub", "GH", "#24292F"], ["Git", "Git", "#F05032"], ["Zendesk", "Z", "#03363D"],
+    ["Salesforce", "SF", "#00A1E0"], ["Intercom", "IC", "#1F8DED"]
   ];
   const one = TOOLS.map(([n, m, c, dk]) => `<span class="tool"><i class="${dk ? "dk" : ""}" style="--c:${c}">${esc(m)}</i>${esc(n)}</span>`).join("");
   $("tools-track").innerHTML = one + one;
 
   const KIND_WORDS = [
-    ["Jay turns a mountain of messy spreadsheets into a report we actually trust."],
-    ["Calm with upset customers, and he writes escalations that engineers can act on straight away."],
-    ["He automated a task that took us hours every week. We never went back."],
-    ["Quick to learn, careful with details, and always willing to help the next person."],
-    ["Rare mix of support instincts and technical curiosity. I would hire him again."]
+    ["Jay turns messy spreadsheets into reports we can actually trust."],
+    ["Calm with upset customers, and his escalation notes gave engineers what they needed."],
+    ["He automated a weekly task that used to take us hours."],
+    ["Quick to learn, careful with the details, and happy to help the next person."],
+    ["A good mix of support instincts and technical curiosity."]
   ];
   const el = $("says"); let i = 0;
   const show = () => { const q = KIND_WORDS[i++ % KIND_WORDS.length][0]; el.innerHTML = `<q>${esc(q)}</q>`; };
