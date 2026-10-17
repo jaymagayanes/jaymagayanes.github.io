@@ -431,6 +431,34 @@
   dialog.lightbox { background: transparent; border: 0; padding: 0; max-width: 96vw; max-height: 96vh; margin: auto; }
   dialog.lightbox::backdrop { background: rgba(0, 0, 0, 0.85); }
   dialog.lightbox img { max-width: 96vw; max-height: 92vh; display: block; border-radius: 6px; cursor: zoom-out; background: var(--surface); }
+
+  /* Tools strip: logos glide left to right along the bottom, kept faint so it reads as background */
+  body { padding-bottom: 58px; }
+  .walker { bottom: 50px; }
+  .tools {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 1; height: 46px;
+    overflow: hidden; pointer-events: none;
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    border-top: 1px solid var(--line);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+  }
+  .tools-track { display: flex; width: max-content; height: 100%; align-items: center; opacity: 0.6; animation: toolsRight 120s linear infinite; }
+  .tool { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0 1.6rem; white-space: nowrap; font: 600 0.85rem/1 var(--body); color: var(--muted); filter: saturate(0.85); }
+  .tool i {
+    font-style: normal; width: 24px; height: 24px; border-radius: 6px; display: grid; place-items: center;
+    font: 700 0.62rem/1 var(--display); letter-spacing: 0; color: #fff; background: var(--c);
+  }
+  .tool i.dk { color: #1a1a1a; }
+  @keyframes toolsRight { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+  /* One quiet line of kind words under the tiles */
+  .says { margin: 0.9rem 0 0; min-height: 2.6em; text-align: center; color: var(--muted); font-size: 0.92rem; line-height: 1.4; transition: opacity 0.6s; text-wrap: balance; }
+  .says.out { opacity: 0; }
+  .says q { quotes: "\201C" "\201D"; font-style: italic; color: var(--ink); }
+  .says cite { font-style: normal; font-size: 0.82rem; margin-left: 0.4rem; }
+  @media (max-width: 620px) { .says { font-size: 0.85rem; } .tools { height: 42px; } body { padding-bottom: 52px; } .walker { bottom: 46px; } }
+  @media (prefers-reduced-motion: reduce) { .tools-track { animation: none !important; } .says { transition: none; } }
 </style>
 </head>
 <body>
@@ -468,6 +496,7 @@
       <div class="mesh" id="mesh"></div>
       <div class="peek-cat" id="peek-cat" aria-hidden="true"></div>
     </div>
+    <p class="says" id="says" aria-live="polite"></p>
     <noscript><p>Please enable JavaScript to browse the projects, or email me directly.</p></noscript>
   </main>
 
@@ -476,6 +505,8 @@
     <div class="footer-dog" id="footer-dog" aria-hidden="true"></div>
   </footer>
 </div>
+
+<div class="tools" aria-hidden="true"><div class="tools-track" id="tools-track"></div></div>
 
 <dialog class="modal" id="modal" aria-labelledby="m-title">
   <div class="m-head">
@@ -1281,6 +1312,35 @@ $("dog-walker").innerHTML = `<span class="flip">${dogWalker("#8A5A3B", "#5E3A24"
     }
     if (m.a > 0.01 || m.on || ripples.length || paws.length) requestAnimationFrame(tick);
     else running = false;
+  }
+})();
+
+/* Tools strip and kind words.
+   TOOLS: name, short mark, brand colour. Swap any badge for an official logo later if you like.
+   KIND_WORDS: SAMPLE TEXT. Replace with real feedback from real people before sharing widely. */
+(function toolsAndWords() {
+  const TOOLS = [
+    ["Excel", "X", "#1D6F42"], ["SQL", "SQL", "#336791"], ["Python", "Py", "#3776AB"], ["Power BI", "BI", "#F2C811", 1],
+    ["Power Query", "PQ", "#217346"], ["Power Automate", "PA", "#0066FF"], ["n8n", "n8n", "#EA4B71"], ["Zendesk", "Z", "#03363D"],
+    ["Salesforce", "SF", "#00A1E0"], ["Intercom", "IC", "#1F8DED"], ["JavaScript", "JS", "#F7DF1E", 1], ["Node.js", "N", "#5FA04E"],
+    ["GitHub", "GH", "#24292F"], ["Slack", "S", "#4A154B"], ["Microsoft Teams", "T", "#5059C9"], ["SharePoint", "SP", "#0B7285"],
+    ["Zoom", "Zm", "#2D8CFF"], ["WordPress", "W", "#21759B"], ["Google Meet", "M", "#00897B"], ["REST APIs", "API", "#7B4DDB"]
+  ];
+  const one = TOOLS.map(([n, m, c, dk]) => `<span class="tool"><i class="${dk ? "dk" : ""}" style="--c:${c}">${esc(m)}</i>${esc(n)}</span>`).join("");
+  $("tools-track").innerHTML = one + one;
+
+  const KIND_WORDS = [
+    ["Jay turns a mountain of messy spreadsheets into a report we actually trust."],
+    ["Calm with upset customers, and he writes escalations that engineers can act on straight away."],
+    ["He automated a task that took us hours every week. We never went back."],
+    ["Quick to learn, careful with details, and always willing to help the next person."],
+    ["Rare mix of support instincts and technical curiosity. I would hire him again."]
+  ];
+  const el = $("says"); let i = 0;
+  const show = () => { const q = KIND_WORDS[i++ % KIND_WORDS.length][0]; el.innerHTML = `<q>${esc(q)}</q>`; };
+  show();
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    setInterval(() => { el.classList.add("out"); setTimeout(() => { show(); el.classList.remove("out"); }, 650); }, 7000);
   }
 })();
 
