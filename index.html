@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Jay Magayanes | Data, Support and Automation</title>
-<meta name="description" content="I'm Jay, based in the Philippines. I've spent seven years in customer support, technical support and data work, and I enjoy building small tools that make that work easier. Open a section to see what I've made.">
+<meta name="description" content="I'm Jay, based in the Philippines. I've spent eight years in customer support, technical support and data work, and I enjoy building small tools that make that work easier. Open a section to see what I've made.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
@@ -389,6 +389,10 @@
   .m-body.single .pane.right { padding: 2rem 2.5rem; }
   .m-body.single { grid-template-columns: minmax(0, 1fr); }
   .m-body.single .pane.left { display: none; }
+  .exp .lead { color: var(--muted); font-size: 1.15rem; line-height: 1.6; }
+  .exp .exp-h { font-size: 1.25rem; font-weight: 700; margin: 1.6rem 0 0.4rem; }
+  .exp .exp-h + p { margin-top: 0; }
+  .exp dl.skills { margin-top: 1.75rem; padding-top: 0.25rem; border-top: 1px solid var(--line); }
   .about-text p { margin: 0 0 1.25rem; font-size: 1.1rem; max-width: 64ch; }
 
 
@@ -480,7 +484,7 @@
     <div class="connect">
       <div class="actions">
         <button class="about-link" id="about-btn" type="button" aria-haspopup="dialog">About me</button>
-        <a class="resume" id="resume-btn" href="resume.pdf" download>Download r&eacute;sum&eacute;</a>
+        <a class="resume" id="resume-btn" href="resume.pdf" download="Jay-Magayanes-Resume.pdf">Download r&eacute;sum&eacute;</a>
       </div>
       <div class="reach">
         <p class="lets">Let's connect</p>
@@ -549,7 +553,7 @@ const CONFIG = {
 
 /* The About me pop-up. One string per paragraph. */
 const ABOUT = [
-  "Hi, I'm Jay, and I live in the Philippines. I started out as a customer support agent for a flower delivery company, then picked up new skills at other companies as a customer support rep, sales rep and technical support rep. From there I moved into back-office work with data, as a quality analyst, data analyst and support officer.",
+  "Hi, I'm Jay, and I live in the Philippines. I started out as a customer support agent for a flower delivery company, then picked up new skills at other companies as a customer support rep and technical support rep. From there I moved into back-office work: nearly four years as a quality analyst on Instagram's content moderation work, followed by technical support for an ecommerce platform and then operations and data roles.",
   "I'm a curious person who likes to build things, whether that's web pages, small web apps, Excel automations on the Microsoft platform, or reports in Python. What I enjoy most is making tools that help other people do their jobs more easily.",
   "A few fun facts: I play guitar, and I love animals. I have 2 dogs and 8 cats, most of them adopted, and a few are the children of the others.",
   "I like being in a role where I can keep learning."
@@ -558,7 +562,7 @@ const ABOUT = [
 /* The tiles on the page. "tag" decides which projects appear inside. */
 const ROLES = [
   {
-    id: "data", tag: "data", wide: true,
+    id: "data", tag: "data",
     name: "Data and analytics",
     blurb: "Reporting, data cleaning, quality analysis and dashboards.",
     chips: "Python, SQL, R, Power BI, Excel, Power Query",
@@ -567,20 +571,64 @@ const ROLES = [
     working: "Python, SQL and PostgreSQL, R and Shiny, Power BI, data modelling"
   },
   {
-    id: "tech", tag: "tech", wide: true,
+    id: "web", tag: "web",
+    name: "Web development and automation",
+    blurb: "Small web tools, scripts and automations that teams use.",
+    chips: "JavaScript, HTML, CSS, Python, Node.js, n8n",
+    summary: "I build small, practical tools and automations that replace repetitive manual work, and I'm growing toward full-stack development.",
+    strong: "Automation with n8n, Power Automate and Power Query; small web tools",
+    working: "JavaScript, HTML and CSS, Python, Node.js and Express, SQL, REST APIs, webhooks"
+  },
+  {
+    id: "quality", tag: "quality",
+    name: "Quality analysis",
+    blurb: "Nearly four years auditing content moderation decisions for Instagram.",
+    chips: "Audits, policy accuracy, performance data, reporting",
+    summary: "I spent nearly four years as a quality analyst on Instagram's content moderation work, checking decisions for accuracy and turning what I found into clearer reports and better training.",
+    sections: [
+      { title: "What I did",
+        text: "I audited moderation decisions to check that they followed policy, and gave clear, fair feedback on what was right and what needed another look." },
+      { title: "Finding the gaps",
+        text: "I analyzed performance data to see where the process was falling short, then reported those gaps in a structured way so the team could act on them." },
+      { title: "Helping others get better",
+        text: "I contributed to improvements in training materials, so lessons from the audits reached the people doing the work." },
+      { title: "What it taught me",
+        text: "Four years of this work gave me solid habits: careful attention to detail, consistent judgment, structured reporting and working with data at scale, all from a remote setup." }
+    ],
+    strong: "Quality auditing, policy accuracy, performance analysis, structured reporting, feedback and training material",
+    working: "Excel, data analysis and reporting, documentation"
+  },
+  {
+    id: "tech", tag: "tech",
     name: "Technical support",
-    blurb: "Troubleshooting, integrations, escalations and clear documentation.",
-    chips: "Zendesk, Salesforce, Intercom, REST APIs, webhooks",
-    summary: "I look for the real cause of a problem, not just the symptom, and write it up clearly so the next person can fix it faster.",
-    strong: "Troubleshooting, root-cause analysis, escalation reports, documentation, Zendesk, Salesforce, Intercom",
-    working: "REST APIs, webhooks, n8n, Python scripting, Node.js"
+    blurb: "Phone support for mobile customers, and hands-on platform support for online stores.",
+    chips: "AT&T Mobile, Artstorefronts, HTML, CSS, JavaScript, Stripe, PayPal",
+    summary: "I've done technical support in two ways: on the phone with mobile customers, and behind the scenes helping artists run their online stores.",
+    sections: [
+      { title: "On the phones: mobile service (AT&T Mobile)",
+        text: "I took inbound calls about technical concerns with mobile service. That meant checking phone eligibility, correcting loan amounts, fixing text and call subscriptions, helping customers get into websites, and working through other account and device issues." },
+      { title: "Back office: ecommerce platform support (Artstorefronts)",
+        text: "Artstorefronts is an ecommerce platform where artists sell their original art and prints online. I helped artists build and fix their websites, working across HTML, CSS, JavaScript and the database. I set up integrations with Mailchimp, PayPal, Stripe, Meta Business and Google Analytics, wrote detailed reports, and gave marketing advice. I also built and automated reply templates, supported the whole life cycle of discount codes, and advised on the technical side of shipping and taxes." },
+      { title: "What it was all for",
+        text: "The goal was simple: help each artist market their work and actually get paid for it. This is the support work I'm proudest of, because it let me use both my people skills and my technical side." }
+    ],
+    strong: "Troubleshooting, root-cause analysis, API integrations, reporting, documentation, clear written explanations",
+    working: "HTML, CSS, JavaScript, SQL, REST APIs, webhooks, Mailchimp, PayPal, Stripe, Google Analytics, Zendesk, Salesforce"
   },
   {
     id: "support", tag: "support",
     name: "Customer support",
-    blurb: "Chat, email and phone support for large consumer brands.",
-    chips: "Zendesk, Salesforce, Intercom",
-    summary: "Calm, accurate and consistent with customers across chat, email and phone, and comfortable working with little supervision.",
+    blurb: "Calls, chats and emails for large consumer brands.",
+    chips: "1-800-Flowers, TripAdvisor, Apple",
+    summary: "I've supported well-known consumer brands from call centers in the Philippines, handling calls, chats and emails so each business could stay focused on its customers.",
+    sections: [
+      { title: "What the work looked like",
+        text: "I answered incoming calls, replied to incoming chats and worked through a wide range of email queries. In short, I supported the day-to-day needs of the business, one customer at a time." },
+      { title: "Brands I've supported",
+        text: "1-800-Flowers, TripAdvisor and Apple, plus technical support for AT&T Mobile, which has its own section." },
+      { title: "What a team gets",
+        text: "Someone who stays calm on a hard call, gets the details right, follows the process and knows when to escalate. I'm comfortable working remotely with little supervision, and when a task keeps repeating, I'm happy to build a small tool for it." }
+    ],
     strong: "Conflict resolution, billing and refunds, order management, escalation handling, remote self-management",
     working: "Zendesk, Salesforce, Intercom, Slack, Zoom, Microsoft Teams"
   },
@@ -592,15 +640,6 @@ const ROLES = [
     summary: "Organized and detail-minded. I keep records accurate, requests moving and people informed.",
     strong: "Application processing, record keeping, report preparation, coordinating with internal and external teams",
     working: "Microsoft 365, SharePoint, Slack, Zoom, Microsoft Teams, Google Meet, WordPress, Wix"
-  },
-  {
-    id: "web", tag: "web",
-    name: "Web development and automation",
-    blurb: "Small web tools, scripts and automations that teams use.",
-    chips: "JavaScript, HTML, CSS, Python, Node.js, n8n",
-    summary: "I build small, practical tools and automations that replace repetitive manual work, and I'm growing toward full-stack development.",
-    strong: "Automation with n8n, Power Automate and Power Query; small web tools",
-    working: "JavaScript, HTML and CSS, Python, Node.js and Express, SQL, REST APIs, webhooks"
   }
 ];
 
@@ -625,7 +664,7 @@ const PROJECTS = [
       "Star-schema model in PostgreSQL (CTEs, window functions, percentiles), an Excel pivot dashboard with slicers, and a Power BI report with DAX measures"
     ],
     stack: "Python, SQL (PostgreSQL), Power Query, Excel, Power BI, DAX",
-    tags: ["data", "support"],
+    tags: ["data"],
     images: [
       { src: "images/powerbi_overview.png", caption: "Power BI: overview of volume, complaint types and closure" },
       { src: "images/powerbi_agency.png", caption: "Power BI: agency performance and time to close" },
@@ -662,9 +701,28 @@ const PROJECTS = [
     code: "https://github.com/jaymagayanes/global-education-intelligence", download: "", readme: ""
   },
   {
+    title: "Jargon Buster: a tech glossary for new joiners",
+    status: "live",
+    summary: "A small app that explains common tech terms in plain English, each with a real-world analogy and links to related terms.",
+    details: [
+      "Three views: searchable cards, an interactive graph that shows how terms depend on each other, and a quiz with practice packs and a timed exam",
+      "A compare tool builds a ready-to-paste prompt for an AI assistant from two to five selected terms",
+      "Content is written in simple text files, and a Python script checks them and builds one self-contained HTML page",
+      "Designed as an onboarding aid for new joiners to a tech team. This public version uses an original, general glossary of 67 terms"
+    ],
+    stack: "JavaScript, HTML, CSS, Python (build script)",
+    tags: ["web"],
+    images: [
+      { src: "images/jargon-search.png", caption: "Search view with a term filtered" },
+      { src: "images/jargon-graph.png", caption: "Graph view showing how terms connect" }
+    ],
+    demo: "https://jaymagayanes.github.io/jargon-buster/", video: "",
+    code: "https://github.com/jaymagayanes/jargon-buster", download: "", readme: ""
+  },
+  {
     title: "Exceptions database web app (sample data)",
     status: "live",
-    summary: "A searchable web app that replaces a six-sheet Excel workbook of exceptions, built for a real team and used day to day.",
+    summary: "A searchable web app that replaces a six-sheet Excel workbook of exceptions.",
     details: [
       "A Power Query (M code) pipeline cleans six differently laid-out sheets into one 14-column format",
       "Every record keeps its source sheet and row number, so it can be traced back to the original",
@@ -690,7 +748,7 @@ const PROJECTS = [
       "Uses sample data when no credentials are set, so anyone can try it"
     ],
     stack: "Python, REST API, JSON, CSV, HTML",
-    tags: ["data", "tech", "web"],
+    tags: ["data", "web"],
     images: [
       { src: "images/zendesk-report.png", caption: "The HTML summary report" }
     ], demo: "", video: "https://drive.google.com/file/d/1Zh8saF6_mLPYIuh7r8SaAE1vyEYfAZKY/view?usp=sharing",
@@ -709,7 +767,7 @@ const PROJECTS = [
       "I chose rules over an AI model on purpose: they are cheaper, predictable and easy to test"
     ],
     stack: "Node.js, Express, JavaScript, HTML, CSS, REST APIs",
-    tags: ["support", "tech", "web"],
+    tags: ["web"],
     images: [
       { src: "images/routing-portal.png", caption: "Customer portal" },
       { src: "images/routing-admin.png", caption: "Admin dashboard" }
@@ -727,7 +785,7 @@ const PROJECTS = [
       "The README explains how it would run in production, with a webhook and a workflow tool such as n8n"
     ],
     stack: "JavaScript, HTML, CSS, Zendesk REST API",
-    tags: ["tech", "web"],
+    tags: ["web"],
     images: [
       { src: "images/8x8-dashboard.png", caption: "Call queue, ticket feed and live event log" }
     ], demo: "", video: "https://drive.google.com/file/d/1argp2Fxxgs-8NRuDg1HkkqA9USlF2lA2/view?usp=sharing",
@@ -771,7 +829,7 @@ $("mesh").innerHTML = ROLES.map(r => {
     <h2>${esc(r.name)}</h2>
     <p class="blurb">${esc(r.blurb)}</p>
     <p class="chips">${esc(r.chips)}</p>
-    <span class="foot"><span>${n} project${n === 1 ? "" : "s"}</span><span class="more" aria-hidden="true">See more <span class="arrow"></span></span>
+    <span class="foot"><span>${n ? `${n} project${n === 1 ? "" : "s"}` : "Experience"}</span><span class="more" aria-hidden="true">See more <span class="arrow"></span></span>
   </button>`;
 }).join("");
 
@@ -793,6 +851,20 @@ function renderLeft() {
       ${state.projects.map((p, k) => `<button type="button" class="proj-btn" data-proj="${k}" aria-current="${k === state.p}">
         <span>${esc(p.title)}</span>${p.status === "soon" ? "<small>In progress</small>" : ""}</button>`).join("")}
     </div>`;
+}
+
+function renderExperience() {
+  const r = state.role;
+  $("m-title").textContent = r.name;
+  $("m-left").innerHTML = "";
+  $("m-right").innerHTML = `<div class="about-text exp">
+    <p class="lead">${esc(r.summary)}</p>
+    ${r.sections.map(x => `<h3 class="exp-h">${esc(x.title)}</h3><p>${esc(x.text)}</p>`).join("")}
+    <dl class="skills">
+      <dt>What I do best</dt><dd>${esc(r.strong)}</dd>
+      <dt>Also working with</dt><dd>${esc(r.working)}</dd>
+    </dl>
+  </div>`;
 }
 
 function renderRight() {
@@ -848,7 +920,11 @@ function openRole(id, fromRoute) {
   state.role = ROLES.find(r => r.id === id);
   state.projects = projectsFor(state.role);
   state.p = 0; state.i = 0;
-  renderLeft(); renderRight();
+  if (state.role.sections && !state.projects.length) {
+    modal.classList.add("about");
+    modal.querySelector(".m-body").classList.add("single");
+    renderExperience();
+  } else { renderLeft(); renderRight(); }
   document.body.style.overflow = "hidden";
   if (!modal.open) modal.showModal();
   modal.querySelectorAll(".pane").forEach(el => el.scrollTop = 0);
@@ -1128,7 +1204,8 @@ $("dog-walker").innerHTML = `<span class="flip">${dogWalker("#8A5A3B", "#5E3A24"
 
   /* Headline phrases, shown in turn (the original line comes back at the end of the cycle) */
   const PHRASES = [
-    "📊 Seven years across data, support and operations",
+    "📊 Eight years across data, support and operations",
+    "🔍 Nearly four years of quality analysis at scale",
     "🔧 Technical support that looks for the real cause",
     "💬 Customer support that's clear, calm and friendly",
     "🤖 Automating repetitive tasks so teams can focus on people",
